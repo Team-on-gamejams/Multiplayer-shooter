@@ -41,7 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Component.cs" />
+    <Compile Include="ComponentMessage.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameContext.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="PlayerDescriptor.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

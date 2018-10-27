@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerLogic
-{
-    public class Class1
-    {
-    }
+namespace Common.Interfaces {
+	public interface IComponent {
+	}
 }
