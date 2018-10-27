@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerLogic {
-	enum ComponentMessage : byte {
-
+namespace Common {
+	public class ComponentMessageBase {
+		public ComponentMessageType ComponentMessageType {get;set;}
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Interfaces {
-	public interface IPlayer : IGameObject{
+namespace Common {
+	public enum GameObjectType : byte {
 	}
 }

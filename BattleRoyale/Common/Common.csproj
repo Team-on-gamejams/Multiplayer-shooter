@@ -41,12 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentMessage.cs" />
+    <Compile Include="ComponentMessageBase.cs" />
+    <Compile Include="GameObjectType.cs" />
+    <Compile Include="GameObjectState.cs" />
     <Compile Include="Interfaces\IGame.cs" />
+    <Compile Include="Interfaces\IGameSettings.cs" />
+    <Compile Include="Interfaces\IMatchSettings.cs" />
+    <Compile Include="Interfaces\IMatchStatitic.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPlayerDescriptor.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IGameContext.cs" />
     <Compile Include="Interfaces\IComponent.cs" />
+    <Compile Include="Interfaces\IServer.cs" />
+    <Compile Include="PlayerAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

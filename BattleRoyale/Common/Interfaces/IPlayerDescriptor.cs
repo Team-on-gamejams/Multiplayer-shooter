@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Interfaces {
 	public interface IPlayerDescriptor {
+		void PerformAction(PlayerAction action);
+		ulong GetId();
 	}
 }
