@@ -41,6 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\BaseComponent.cs" />
+    <Compile Include="Components\SolidBody.cs" />
+    <Compile Include="GameObject\GameObjectType.cs" />
+    <Compile Include="Components\ComponentMessageBase.cs" />
+    <Compile Include="Components\ComponentMessageType.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameContext.cs" />
+    <Compile Include="GameObject\BaseGameObject.cs" />
+    <Compile Include="GameObject\PlayerObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
