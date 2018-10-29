@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 using Common;
 
 namespace ServerLogic.Components {
-	class SolidBody : BaseComponent{
-		Coord pos;
-		Size size;
-		short angle;
+	class SolidBody : TexturedBody{
 		bool isSemisolid;
 
-		public SolidBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, bool isSemisolid) : base(owner) {
-			this.pos = pos;
-			this.size = size;
-			this.angle = angle;
+		public SolidBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, bool isSemisolid, TextureId textureId)
+			: base(owner, pos, size, angle, textureId) {
 			this.isSemisolid = isSemisolid;
 		}
 
@@ -27,6 +22,8 @@ namespace ServerLogic.Components {
 				default:
 					break;
 			}
+
+			base.ProcessMessage(msg);
 		}
 	}
 }

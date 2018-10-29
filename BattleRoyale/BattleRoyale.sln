@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{3415A607-E60E-4DB1-BED0-EE9B84EBC295}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighscoresRecorder", "HighscoresRecorder\HighscoresRecorder.csproj", "{958C8E02-AFF2-49E7-83B2-65FA04CC7F29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HighscoresRecorderService", "HighscoresRecorderService\HighscoresRecorderService.csproj", "{07AB4922-0C38-4AA8-87BF-A73DA5946637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapCreator", "MapCreator\MapCreator.csproj", "{7DEC1575-0D59-4977-AA2C-970FBA36BF22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{07AB4922-0C38-4AA8-87BF-A73DA5946637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07AB4922-0C38-4AA8-87BF-A73DA5946637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07AB4922-0C38-4AA8-87BF-A73DA5946637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DEC1575-0D59-4977-AA2C-970FBA36BF22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DEC1575-0D59-4977-AA2C-970FBA36BF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DEC1575-0D59-4977-AA2C-970FBA36BF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DEC1575-0D59-4977-AA2C-970FBA36BF22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

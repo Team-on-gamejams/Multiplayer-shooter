@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ServerLogic.Components;
+
 namespace ServerLogic.GameObject {
-	enum GameObjectType : byte {
-		None,
-		Player,
-		Floor,
-		Wall
+	class BaseMapObject : BaseGameObject{
+		public BaseMapObject(GameObjectType type)
+			: base(type, null) {
+
+		}
 	}
 }

@@ -11,16 +11,26 @@ namespace ServerLogic.GameObject {
 	class BaseGameObject : IDisposable {
 		static ulong lastId = 0;
 
-		public void SendMessage(ComponentMessageBase msg) => messageQueue.Enqueue(msg);
-		public bool TryReadMessage(out ComponentMessageBase msg) => messageQueue.TryDequeue(out msg);
+		public void SendMessage(ComponentMessageBase msg){
+            messageQueue.Enqueue(msg);
+        }
+		public bool TryReadMessage(out ComponentMessageBase msg){
+            return messageQueue.TryDequeue(out msg);
+        }
 
-		public BaseComponent[] Components => components.ToArray();
+		public BaseComponent[] Components{
+            get{
+                return components.ToArray();
+            }
+        }
 		public ulong Id { get; private set; }
 
 		public GameObjectType GOType { get; protected set; }
 		public BaseGameObject Parent { get; protected set; }
 
-		bool IsDisposed() => isDisposed;
+        bool IsDisposed() { 
+            return isDisposed;
+        }
 		public void Dispose() {
 			isDisposed = true;
 		}

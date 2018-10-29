@@ -9,7 +9,10 @@ namespace Common {
 		void StartServer(string ip, ushort port);
 		void StopServer();
 
-		void Dequeye();
-		void ReadWorldState();
+		void DequeuePlayerAction();
+		void SendWorldState();
+
+		void AppendPlayer();
+		void KickAllPlayers();
 	}
 }

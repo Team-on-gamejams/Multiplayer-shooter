@@ -17,5 +17,21 @@ namespace Server {
 		public void StopServer() {
 			throw new NotImplementedException();
 		}
+
+		public void DequeuePlayerAction() {
+			throw new NotImplementedException();
+		}
+
+		public void SendWorldState() {
+			throw new NotImplementedException();
+		}
+
+		public void AppendPlayer() {
+			throw new NotImplementedException();
+		}
+
+		public void KickAllPlayers() {
+			throw new NotImplementedException();
+		}
 	}
 }

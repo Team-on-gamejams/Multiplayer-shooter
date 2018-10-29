@@ -5,11 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Common {
-	public interface IClient {
-		void Connect(string ip, ushort port);
-		void Disconnect();
-
-		void SentPlayerAction();
-		void GetWorldState();
+	public enum TextureId : byte {
+		None,
+		Player
 	}
 }
