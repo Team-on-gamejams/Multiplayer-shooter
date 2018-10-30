@@ -9,8 +9,8 @@ namespace Common {
 		void StartServer(string ip, ushort port);
 		void StopServer();
 
-		void DequeuePlayerAction();
-		void SendWorldState();
+		bool TryDequeuePlayerAction(out BasePlayerAction playerAction);
+		void SendWorldState(GameObjectState[] worldState);
 
 		void AppendPlayer();
 		void KickAllPlayers();

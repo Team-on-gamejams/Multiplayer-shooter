@@ -11,6 +11,8 @@ namespace ServerLogic {
 
 		public void StartGame(IServer server) {
 			this.server = server;
+			gameContext.SetServer(server);
+			gameContext.LoadMap();
 
 			gameThread = new Thread(() => {
 				gameContext.StartGame();

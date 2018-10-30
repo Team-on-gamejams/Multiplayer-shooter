@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace ServerLogic.Components {
 	enum ComponentMessageType : byte{
 		None,
-
+		TickElapsed
 	}
 }

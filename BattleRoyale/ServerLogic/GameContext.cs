@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Common;
+using ServerLogic.Components;
 using ServerLogic.GameObject;
 
 namespace ServerLogic {
 	class GameContext {
-#region Singletone
+		#region Singletone
 		static GameContext gameContext;
 
 		static public GameContext GetGCState() {
@@ -20,15 +22,26 @@ namespace ServerLogic {
 			map = new List<BaseMapObject>();
 			players = new List<PlayerObject>();
 			gameObjects = new List<BaseGameObject>();
+			toRemove = new List<BaseGameObject>();
 			isRunning = true;
 		}
-#endregion
+		#endregion
 
+		IServer server;
 		List<BaseMapObject> map;
 		List<PlayerObject> players;
 		List<BaseGameObject> gameObjects;
+		List<BaseGameObject> toRemove;
 
 		bool isRunning;
+
+		public void SetServer(IServer server) {
+			this.server = server;
+		}
+
+		public void LoadMap() {
+
+		}
 
 		public void StartGame() {
 			ProcessGame();
@@ -79,12 +92,93 @@ namespace ServerLogic {
 			}
 		}
 
+		void Display() {
+			List<GameObjectState> states = new List<GameObjectState>(map.Count + players.Count + gameObjects.Count);
+			Components.TexturedBody texturedObj;
+			foreach (var i in map) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+				}
+			}
+
+			foreach (var i in players) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+				}
+			}
+
+			foreach (var i in gameObjects) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+				}
+			}
+
+			server.SendWorldState(states.ToArray());
+		}
+
 		void Update() {
+			ReadPlayersInput();
+			ProcessMessages();
+
+
+			RemoveDisposedObjects();
+		}
+
+		void ReadPlayersInput() {
 
 		}
 
-		void Display() {
+		void ProcessMessages() {
+			foreach (var i in gameObjects)
+				i.Process();
+			foreach (var i in players)
+				i.Process();
+			//foreach (var i in map) 
+			//	i.Process();
+		}
 
+		void RemoveDisposedObjects() {
+			foreach (var i in gameObjects)
+				if (i.IsDisposed())
+					toRemove.Add(i);
+			if (toRemove.Count == 0) {
+				foreach (var i in toRemove)
+					gameObjects.Remove(i);
+				toRemove.Clear();
+			}
+
+			foreach (var i in players)
+				if (i.IsDisposed())
+					toRemove.Add(i);
+			if (toRemove.Count == 0) {
+				foreach (var i in toRemove)
+					players.Remove(i as PlayerObject);
+				toRemove.Clear();
+			}
+
+			//foreach (var i in map)
+			//	if (i.IsDisposed())
+			//		toRemove.Add(i);
+			//if (toRemove.Count == 0) {
+			//	foreach (var i in toRemove)
+			//		map.Remove(i as BaseMapObject);
+			//	toRemove.Clear();
+			//}
 		}
 	}
 }

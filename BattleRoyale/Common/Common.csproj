@@ -42,9 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePlayerAction.cs" />
     <Compile Include="Coord.cs" />
+    <Compile Include="GameObjectState.cs" />
     <Compile Include="IClient.cs" />
     <Compile Include="IServer.cs" />
+    <Compile Include="PlayerActionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="TextureId.cs" />

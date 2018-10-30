@@ -8,17 +8,17 @@ using Common;
 
 namespace ServerLogic.Components {
 	class TexturedBody : BaseComponent {
-		protected TextureId textureId;
-		protected Coord pos;
-		protected Size size;
-		protected short angle;
+		public TextureId TextureId { get; protected set; }
+		public Coord Pos { get; protected set; }
+		public Size Size { get; protected set; }
+		public short Angle { get; protected set; }
 
 		public TexturedBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, TextureId textureId)
 			: base(owner) {
-			this.pos = pos;
-			this.size = size;
-			this.angle = angle;
-			this.textureId = textureId;
+			this.Pos = pos;
+			this.Size = size;
+			this.Angle = angle;
+			this.TextureId = textureId;
 		}
 
 		public override void ProcessMessage(ComponentMessageBase msg) {
@@ -31,9 +31,9 @@ namespace ServerLogic.Components {
 		}
 
 		public void AppendCoords(Coord pos, short angle) {
-			this.pos.x = pos.x;
-			this.pos.y = pos.y;
-			this.angle = angle;
+			this.Pos.x = pos.x;
+			this.Pos.y = pos.y;
+			this.Angle = angle;
 		}
 	}
 }
