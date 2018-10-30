@@ -19,7 +19,7 @@ namespace ServerLogic.GameObject {
 
 		public T GetComponent<T>() where T : BaseComponent {
 			foreach (var c in components)
-				if (c.GetType() == typeof(T))
+				if (c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T)))
 					return c as T;
 			return null;
 		}

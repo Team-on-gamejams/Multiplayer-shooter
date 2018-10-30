@@ -13,7 +13,7 @@
         Closed="Window_Closed"
         >
     <Grid>
-        <Canvas x:Name="GameCanvas">
+        <Canvas x:Name="GameCanvas" Background="White">
             
         </Canvas>
     </Grid>

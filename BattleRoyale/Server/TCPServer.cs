@@ -36,7 +36,7 @@ namespace Server {
 			foreach (var state in worldState) 
 				data.AddRange(GameObjectState.Serialize(state));
 
-			Console.WriteLine($"Send {data.Count} bytes {new DateTime(worldState[0].ticks).ToLongTimeString()}");
+			Console.WriteLine($"Send {data.Count} bytes {new DateTime(worldState[0].ticks).ToLongTimeString()}    {worldState.Length}");
 			lock (clientsLocker) {
 				foreach (var c in clients) {
 					lock (c.locker)

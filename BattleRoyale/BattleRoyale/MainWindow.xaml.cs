@@ -21,6 +21,7 @@ namespace BattleRoyale {
 	/// </summary>
 	public partial class MainWindow : Window {
 		Common.IClient client;
+		//List<Common.GameObjectState> statesHashed;
 
 		public MainWindow() {
 			InitializeComponent();
@@ -32,10 +33,53 @@ namespace BattleRoyale {
 			AllocConsole();
 
 			client.Connect("127.0.0.1", 65000);
+			bool readed = false;
 			client.OnWorldUpdate += (states) => {
-				Console.WriteLine($"Recieve {states.Length * Common.GameObjectState.OneObjectSize} bytes {new DateTime(states[0].ticks).ToLongTimeString()}");
+				if (readed)
+					return;
+				readed = true;
+
+				Console.WriteLine($"Recieve {states.Length * Common.GameObjectState.OneObjectSize} bytes {new DateTime(states[0].ticks).ToLongTimeString()}    {states.Length}");
+
+				//if (statesHashed == null)
+				//	statesHashed = new List<Common.GameObjectState>(states);
+
+				this.Dispatcher.Invoke(() => {
+					GameCanvas.Children.Clear();
+				});
+
+				int i = 0;
 				foreach (var state in states) {
-					
+					string path = @"D:\code\Battle-Royale\BattleRoyale\BattleRoyale\Resources\textures\";
+
+					switch (state.TextureId) {
+						case Common.TextureId.None:
+							path += "None";
+							break;
+						case Common.TextureId.Player:
+							path += "Player";
+							break;
+						case Common.TextureId.DungeonFloor:
+							path += "DungeonFloor";
+							break;
+						case Common.TextureId.DungeonWall:
+							path += "DungeonWall";
+							break;
+					}
+					path += ".png";
+					Console.WriteLine(path + $" {++i}");
+
+					this.Dispatcher.Invoke(() => {
+						Image image = new Image();
+						image.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
+						image.Width = state.Size.width;
+						image.Height = state.Size.height;
+						
+						GameCanvas.Children.Add(image);
+
+						Canvas.SetLeft(image, state.Pos.x);
+						Canvas.SetTop(image, state.Pos.y);
+					});
 				}
 			};
 		}
