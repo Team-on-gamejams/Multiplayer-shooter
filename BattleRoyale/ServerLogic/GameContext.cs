@@ -40,7 +40,14 @@ namespace ServerLogic {
 		}
 
 		public void LoadMap() {
-
+			for (int i = 0; i < 10; ++i) {
+				for (int j = 0; j < 10; ++j) {
+					if (i == 0 || j == 0 || i == 9 || j == 9)
+						map.Add(new WallMapObject(new Coord(i * 50, j * 50), TextureId.DungeonWall));
+					else
+						map.Add(new FloorMapObject(new Coord(i * 50, j * 50), TextureId.DungeonFloor));
+				}
+			}
 		}
 
 		public void StartGame() {
@@ -73,28 +80,35 @@ namespace ServerLogic {
 
 			//Calculations per second (like fps)
 			const int cps = 30;
-			const int skipTick = 1000 / cps;
+			const int maxFps = 60;
+			const int skipTickcps = 1000 / cps;
+			const int skipTickfps = 1000 / maxFps;
 			const int maxFrameSkip = 10;
 
-			int nextTick = Environment.TickCount;
+			int nextTickcps = Environment.TickCount;
+			int nextTickfps = Environment.TickCount;
 			int loops;
 
 			while (isRunning) {
 				loops = 0;
-				while (Environment.TickCount > nextTick && loops < maxFrameSkip) {
+				while (Environment.TickCount > nextTickcps && loops < maxFrameSkip) {
 					Update();
 
-					nextTick += skipTick;
+					nextTickcps += skipTickcps;
 					loops++;
 				}
 
-				Display();
+				if (Environment.TickCount > nextTickfps) {
+					Display();
+					nextTickfps += skipTickfps;
+				}
 			}
 		}
 
 		void Display() {
 			List<GameObjectState> states = new List<GameObjectState>(map.Count + players.Count + gameObjects.Count);
 			Components.TexturedBody texturedObj;
+
 			foreach (var i in map) {
 				texturedObj = i.GetComponent<Components.TexturedBody>();
 				if (texturedObj != null) {
@@ -136,7 +150,7 @@ namespace ServerLogic {
 			ProcessMessages();
 
 
-			RemoveDisposedObjects();
+			//RemoveDisposedObjects();
 		}
 
 		void ReadPlayersInput() {

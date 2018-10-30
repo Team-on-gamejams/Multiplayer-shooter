@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace Common {
 	public enum TextureId : byte {
 		None,
-		Player
+		Player,
+		DungeonFloor,
+		DungeonWall,
 	}
 }

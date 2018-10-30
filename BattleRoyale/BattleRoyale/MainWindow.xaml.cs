@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Runtime.InteropServices;
+
 namespace BattleRoyale {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -23,11 +25,19 @@ namespace BattleRoyale {
 		public MainWindow() {
 			InitializeComponent();
 
-			client = new UDPClient();
+			client = new TCPClient();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
+			AllocConsole();
+
 			client.Connect("127.0.0.1", 65000);
+			client.OnWorldUpdate += (states) => {
+				Console.WriteLine($"Recieve {states.Length * Common.GameObjectState.OneObjectSize} bytes {new DateTime(states[0].ticks).ToLongTimeString()}");
+				foreach (var state in states) {
+					
+				}
+			};
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -37,5 +47,9 @@ namespace BattleRoyale {
 		private void Window_Closed(object sender, EventArgs e) {
 
 		}
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool AllocConsole();
 	}
 }

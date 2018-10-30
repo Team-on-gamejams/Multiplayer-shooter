@@ -10,7 +10,7 @@ using ServerLogic;
 namespace Server {
 	class Program {
 		static void Main(string[] args) {
-			IServer server = new UDPServer();
+			IServer server = new TCPServer();
 			Game game = new Game();
 
 			server.StartServer("127.0.0.1", 65000);

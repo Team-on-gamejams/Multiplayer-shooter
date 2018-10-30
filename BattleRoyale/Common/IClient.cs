@@ -9,7 +9,9 @@ namespace Common {
 		void Connect(string ip, ushort port);
 		void Disconnect();
 
+		event Action<GameObjectState[]> OnWorldUpdate;
+
 		void SentPlayerAction(BasePlayerAction playerAction);
-		GameObjectState[] GetWorldState();
+		//GameObjectState[] GetWorldState();
 	}
 }

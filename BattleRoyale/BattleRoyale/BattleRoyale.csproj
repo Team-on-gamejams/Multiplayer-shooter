@@ -56,7 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UDPClient.cs" />
+    <Compile Include="TCPClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -114,8 +114,12 @@
       <Name>Network</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\textures\" />
+    <Resource Include="Resources\textures\DungeonFloor.png" />
+    <Resource Include="Resources\textures\DungeonWall.png" />
+    <Resource Include="Resources\textures\None.png" />
+    <Resource Include="Resources\textures\Player.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
