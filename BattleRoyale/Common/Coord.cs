@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Common {
 	public class Coord {
-		public double x, y;
+		public uint x, y;
 
 		public Coord() : this(0, 0) { }
 
-		public Coord(double x, double y) {
+		public Coord(uint x, uint y) {
 			this.x = x;
 			this.y = y;
 		}

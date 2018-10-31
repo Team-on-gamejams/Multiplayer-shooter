@@ -14,7 +14,6 @@
         >
     <Grid>
         <Canvas x:Name="GameCanvas" Background="White">
-            
         </Canvas>
     </Grid>
 </Window>

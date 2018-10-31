@@ -30,9 +30,25 @@ namespace ServerLogic.Components {
 			}
 		}
 
+		public void AppendCoords(Coord pos) {
+			this.Pos.x = pos.x;
+			this.Pos.y = pos.y;
+		}
+
+		public void AppendCoords(uint x, uint y) {
+			this.Pos.x = x;
+			this.Pos.y = y;
+		}
+
 		public void AppendCoords(Coord pos, short angle) {
 			this.Pos.x = pos.x;
 			this.Pos.y = pos.y;
+			this.Angle = angle;
+		}
+
+		public void AppendCoords(uint x, uint y, short angle) {
+			this.Pos.x = x;
+			this.Pos.y = y;
 			this.Angle = angle;
 		}
 	}

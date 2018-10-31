@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Common {
 	public class Size {
-		public double width, height;
+		public uint width, height;
 
 		public Size() : this(0, 0) { }
 
-		public Size(double width, double height) {
+		public Size(uint width, uint height) {
 			this.width = width;
 			this.height = height;
 		}

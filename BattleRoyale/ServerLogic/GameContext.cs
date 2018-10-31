@@ -40,14 +40,16 @@ namespace ServerLogic {
 		}
 
 		public void LoadMap() {
-			for (int i = 0; i < 10; ++i) {
-				for (int j = 0; j < 10; ++j) {
+			for (byte i = 0; i < 10; ++i) {
+				for (byte j = 0; j < 10; ++j) {
 					if (i == 0 || j == 0 || i == 9 || j == 9)
-						map.Add(new WallMapObject(new Coord(i * 50, j * 50), TextureId.DungeonWall));
+						map.Add(new WallMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), TextureId.DungeonWall));
 					else
-						map.Add(new FloorMapObject(new Coord(i * 50, j * 50), TextureId.DungeonFloor));
+						map.Add(new FloorMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), TextureId.DungeonFloor));
 				}
 			}
+
+			players.Add(new PlayerObject(new Coord(113, 113)));
 		}
 
 		public void StartGame() {
@@ -79,8 +81,8 @@ namespace ServerLogic {
 			//}
 
 			//Calculations per second (like fps)
-			const int cps = 30;
-			const int maxFps = 60;
+			const int cps = 24;
+			const int maxFps = 24;
 			const int skipTickcps = 1000 / cps;
 			const int skipTickfps = 1000 / maxFps;
 			const int maxFrameSkip = 10;
@@ -145,7 +147,16 @@ namespace ServerLogic {
 			server.SendWorldState(states.ToArray());
 		}
 
+		bool a = false;
 		void Update() {
+			var c = players[0].GetComponent<SolidBody>();
+			if (a)
+				c.AppendCoords(c.Pos.x - 50, c.Pos.y);
+			else
+				c.AppendCoords(c.Pos.x + 50, c.Pos.y);
+
+			a = !a;
+
 			ReadPlayersInput();
 			ProcessMessages();
 
