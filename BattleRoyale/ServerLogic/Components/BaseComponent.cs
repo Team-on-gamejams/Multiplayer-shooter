@@ -10,8 +10,10 @@ namespace ServerLogic.Components {
 	abstract class BaseComponent : Common.IComponent{
 		public IGameObject Owner { get; protected set; }
 
-		protected BaseComponent(BaseGameObject owner) {
+		protected BaseComponent(IGameObject owner) {
 			this.Owner = owner;
+			if (!CheckDependComponents())
+				throw new ApplicationException("No linked component");
 		}
 
 		public abstract void ProcessMessage(Common.IComponentMessage msg);

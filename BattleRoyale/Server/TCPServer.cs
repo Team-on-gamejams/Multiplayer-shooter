@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -15,12 +16,14 @@ namespace Server {
 		Thread serverThread;
 		object clientsLocker = new object();
 		List<ClientInfo> clients;
+		ConcurrentQueue<BasePlayerAction> playerActions;
 
 		IPAddress ip;
 		ushort port;
 
 		public TCPServer() {
 			clients = new List<ClientInfo>();
+			playerActions = new ConcurrentQueue<BasePlayerAction>();
 		}
 
 		public void StartServer(string _ip, ushort _port) {
@@ -54,7 +57,7 @@ namespace Server {
 		}
 
 		public bool TryDequeuePlayerAction(out BasePlayerAction playerAction) {
-			throw new NotImplementedException();
+			return playerActions.TryDequeue(out playerAction);
 		}
 
 		void ProcessServer() {
@@ -79,13 +82,18 @@ namespace Server {
 				clients.Add(clientInfo);
 			}
 
-			byte[] data;
+			byte[] data = new byte[BasePlayerAction.OneObjectSize];
+			BasePlayerAction action;
 
 			while(clientInfo.isRunning) {
 				lock (clientInfo.locker) {
 					if (!clientInfo.stream.DataAvailable)
 						continue;
 
+					Protocol.BaseRecieve(clientInfo.stream, out data);
+					action = BasePlayerAction.Deserialize(data);
+					action.playerId = 0;
+					playerActions.Enqueue(action);
 				}
 			}
 

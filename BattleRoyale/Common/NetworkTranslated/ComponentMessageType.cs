@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 namespace Common {
 	public enum ComponentMessageType : byte{
 		None,
-		TickElapsed
+		TickElapsed,
+
+		MoveForward,
+		MoveBackward,
+		MoveLeft,
+		MoveRight,
+		SkillLMB,
+		SkillRMB
 	}
 }

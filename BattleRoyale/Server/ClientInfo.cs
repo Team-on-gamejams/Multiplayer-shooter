@@ -11,6 +11,7 @@ namespace Server {
 		public Thread thread;
 		public TcpClient client;
 		public NetworkStream stream;
+		public ulong playerId;
 
 		public void Send(byte[] data) {
 			lock (locker) {

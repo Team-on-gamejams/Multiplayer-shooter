@@ -11,7 +11,7 @@ namespace ServerLogic.GameObject {
 	class FloorMapObject : BaseMapObject {
 		public FloorMapObject(Coord initPos, TextureId id) 
 			: base(GameObjectType.Floor){
-				base.components.Add(new TexturedBody(this, initPos, new Size(50, 50), 0, id));
+				base.components.Add(new TexturedBody(this, initPos, new Size(51, 51), 0, id));
 		}
 	}
 }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BaseComponent.cs" />
+    <Compile Include="Components\Moveable.cs" />
     <Compile Include="Components\SolidBody.cs" />
     <Compile Include="Components\TexturedBody.cs" />
     <Compile Include="GameObject\FloorMapObject.cs" />

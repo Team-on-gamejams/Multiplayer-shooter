@@ -22,12 +22,7 @@ namespace ServerLogic.Components {
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
-			switch (msg.ComponentMessageType) {
-				case ComponentMessageType.None:
-					break;
-				default:
-					break;
-			}
+
 		}
 
 		public void AppendCoords(Coord pos) {
@@ -50,6 +45,16 @@ namespace ServerLogic.Components {
 			this.Pos.x = x;
 			this.Pos.y = y;
 			this.Angle = angle;
+		}
+
+		public void AddToCoords(Coord pos) {
+			this.Pos.x += pos.x;
+			this.Pos.y += pos.y;
+		}
+
+		public void AddToCoords(uint x, uint y) {
+			this.Pos.x += x;
+			this.Pos.y += y;
 		}
 	}
 }

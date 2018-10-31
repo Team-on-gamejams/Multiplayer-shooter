@@ -9,5 +9,13 @@ using Common;
 namespace ServerLogic.Components {
 	class ComponentMessageBase : IComponentMessage {
 		public ComponentMessageType ComponentMessageType { get; set; }
+
+		public ComponentMessageBase() {
+			ComponentMessageType = ComponentMessageType.None;
+		}
+
+		public ComponentMessageBase(ComponentMessageType type) {
+			ComponentMessageType = type;
+		}
 	}
 }

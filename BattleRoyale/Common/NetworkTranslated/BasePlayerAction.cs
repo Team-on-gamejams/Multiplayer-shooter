@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace Common {
 	public class BasePlayerAction {
 		public PlayerActionType actionType;
+		//Fill on server
+		public ulong playerId;
 
 		public BasePlayerAction() : this(PlayerActionType.None) {
 
@@ -14,6 +16,19 @@ namespace Common {
 
 		public BasePlayerAction(PlayerActionType actionType) {
 			this.actionType = actionType;
+		}
+
+		static public byte OneObjectSize => 1;
+
+		static public byte[] Serialize(BasePlayerAction state) {
+			return new byte[] { (byte)state.actionType };
+		}
+
+		static public BasePlayerAction Deserialize(byte[] bytes) {
+			if (bytes.Length != OneObjectSize)
+				throw new ApplicationException("Wrong byte[] size in static public GameObjectState Deserialize(byte[] bytes);");
+
+			return new BasePlayerAction((PlayerActionType)bytes[0]);
 		}
 	}
 }

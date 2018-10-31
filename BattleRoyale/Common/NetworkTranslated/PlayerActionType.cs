@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Common {
 	public enum PlayerActionType : byte {
-		None,
-		MoveForward,
-		MoveBackward,
-		MoveLeft,
-		MoveRight,
-		SkillLMB,
-		SkillRMB
+		None = ComponentMessageType.None,
+		MoveForward = ComponentMessageType.MoveForward,
+		MoveBackward = ComponentMessageType.MoveBackward,
+		MoveLeft = ComponentMessageType.MoveLeft,
+		MoveRight = ComponentMessageType.MoveRight,
+		SkillLMB = ComponentMessageType.SkillLMB,
+		SkillRMB = ComponentMessageType.SkillRMB
 	}
 }

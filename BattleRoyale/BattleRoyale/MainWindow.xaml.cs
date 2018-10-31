@@ -60,6 +60,7 @@ namespace BattleRoyale {
 							Source = new BitmapImage(new Uri(path, UriKind.Relative)),
 							Width = state.Size.width,
 							Height = state.Size.height,
+							Stretch = Stretch.Fill,
 						};
 						Canvas.SetLeft(image, state.Pos.x);
 						Canvas.SetTop(image, state.Pos.y);

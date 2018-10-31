@@ -10,7 +10,8 @@ using Common;
 namespace ServerLogic.GameObject {
 	class PlayerObject : BaseGameObject {
 		public PlayerObject(Coord initPos) : base(GameObjectType.Player, null){
-			base.components.Add(new SolidBody(this, initPos, new Size(25, 25), 0, false, TextureId.Player));
+			components.Add(new SolidBody(this, initPos, new Size(25, 25), 0, false, TextureId.Player));
+			components.Add(new Moveable(this, 10));
 		}
 	}
 }

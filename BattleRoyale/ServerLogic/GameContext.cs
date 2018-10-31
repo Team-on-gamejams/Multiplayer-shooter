@@ -50,6 +50,7 @@ namespace ServerLogic {
 			}
 
 			players.Add(new PlayerObject(new Coord(113, 113)));
+			Console.WriteLine(players[0].Id);
 		}
 
 		public void StartGame() {
@@ -147,16 +148,7 @@ namespace ServerLogic {
 			server.SendWorldState(states.ToArray());
 		}
 
-		bool a = false;
 		void Update() {
-			var c = players[0].GetComponent<SolidBody>();
-			if (a)
-				c.AppendCoords(c.Pos.x - 50, c.Pos.y);
-			else
-				c.AppendCoords(c.Pos.x + 50, c.Pos.y);
-
-			a = !a;
-
 			ReadPlayersInput();
 			ProcessMessages();
 
@@ -165,7 +157,10 @@ namespace ServerLogic {
 		}
 
 		void ReadPlayersInput() {
-
+			while(server.TryDequeuePlayerAction(out BasePlayerAction action)) {
+				players.Find((p) => p.Id == action.playerId)?.
+					SendMessage(new ComponentMessageBase((ComponentMessageType)action.actionType));
+			}
 		}
 
 		void ProcessMessages() {

@@ -61,7 +61,7 @@ namespace BattleRoyale {
 
 		public void SentPlayerAction(BasePlayerAction playerAction) {
 			lock (streamLocker) {
-
+				Protocol.BaseSend(stream, BasePlayerAction.Serialize(playerAction));
 			}
 		}
 
