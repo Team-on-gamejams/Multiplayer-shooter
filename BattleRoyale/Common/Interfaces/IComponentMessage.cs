@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServerLogic.GameObject {
-	enum GameObjectType : byte {
-		None,
-		Player,
-		Floor,
-		Wall
+namespace Common {
+	public interface IComponentMessage {
+		ComponentMessageType ComponentMessageType { get; }
 	}
 }

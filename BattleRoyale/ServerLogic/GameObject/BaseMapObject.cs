@@ -8,7 +8,7 @@ using ServerLogic.Components;
 
 namespace ServerLogic.GameObject {
 	class BaseMapObject : BaseGameObject{
-		public BaseMapObject(GameObjectType type)
+		public BaseMapObject(Common.GameObjectType type)
 			: base(type, null) {
 
 		}

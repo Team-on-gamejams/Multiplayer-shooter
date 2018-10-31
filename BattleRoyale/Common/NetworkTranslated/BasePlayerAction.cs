@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 namespace Common {
 	public class BasePlayerAction {
 		public PlayerActionType actionType;
-		public Coord mousePos;
-		public long playerId;
+
+		public BasePlayerAction() : this(PlayerActionType.None) {
+
+		}
+
+		public BasePlayerAction(PlayerActionType actionType) {
+			this.actionType = actionType;
+		}
 	}
 }

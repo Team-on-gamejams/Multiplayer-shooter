@@ -46,9 +46,7 @@
     <Compile Include="Components\SolidBody.cs" />
     <Compile Include="Components\TexturedBody.cs" />
     <Compile Include="GameObject\FloorMapObject.cs" />
-    <Compile Include="GameObject\GameObjectType.cs" />
     <Compile Include="Components\ComponentMessageBase.cs" />
-    <Compile Include="Components\ComponentMessageType.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameContext.cs" />
     <Compile Include="GameObject\BaseGameObject.cs" />

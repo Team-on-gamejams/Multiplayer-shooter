@@ -49,10 +49,6 @@
       <Project>{3415a607-e60e-4db1-bed0-ee9b84ebc295}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Graphic\Graphic.csproj">
-      <Project>{dc13832f-25c7-4187-866b-a898eea0d779}</Project>
-      <Name>Graphic</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

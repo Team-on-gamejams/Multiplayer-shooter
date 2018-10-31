@@ -42,15 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePlayerAction.cs" />
-    <Compile Include="Coord.cs" />
-    <Compile Include="GameObjectState.cs" />
-    <Compile Include="IClient.cs" />
-    <Compile Include="IServer.cs" />
-    <Compile Include="PlayerActionType.cs" />
+    <Compile Include="Interfaces\IComponentMessage.cs" />
+    <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="Interfaces\IComponent.cs" />
+    <Compile Include="NetworkTranslated\BasePlayerAction.cs" />
+    <Compile Include="Common\Coord.cs" />
+    <Compile Include="NetworkTranslated\ComponentMessageType.cs" />
+    <Compile Include="NetworkTranslated\GameObjectState.cs" />
+    <Compile Include="Interfaces\IClient.cs" />
+    <Compile Include="Interfaces\IServer.cs" />
+    <Compile Include="NetworkTranslated\GameObjectType.cs" />
+    <Compile Include="NetworkTranslated\PlayerActionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Size.cs" />
-    <Compile Include="TextureId.cs" />
+    <Compile Include="Common\Size.cs" />
+    <Compile Include="NetworkTranslated\TextureId.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,17 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{3415A607-E60E-4DB1-BED0-EE9B84EBC295}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Network\Network.csproj", "{77C433B6-AFA1-4066-9DD0-14F02FDEBD23}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLogic", "ServerLogic\ServerLogic.csproj", "{70F533EF-9088-4FD0-AFB7-69F84EF9C133}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphic", "Graphic\Graphic.csproj", "{DC13832F-25C7-4187-866B-A898EEA0D779}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Media", "Media\Media.csproj", "{E050F05C-3661-4740-9997-BF97EEEA299C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{7EEAB6E8-4F5F-497D-859C-7159C91A8AEC}"
 EndProject
@@ -41,14 +37,6 @@ Global
 		{70F533EF-9088-4FD0-AFB7-69F84EF9C133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70F533EF-9088-4FD0-AFB7-69F84EF9C133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70F533EF-9088-4FD0-AFB7-69F84EF9C133}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC13832F-25C7-4187-866B-A898EEA0D779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC13832F-25C7-4187-866B-A898EEA0D779}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC13832F-25C7-4187-866B-A898EEA0D779}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC13832F-25C7-4187-866B-A898EEA0D779}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E050F05C-3661-4740-9997-BF97EEEA299C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E050F05C-3661-4740-9997-BF97EEEA299C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E050F05C-3661-4740-9997-BF97EEEA299C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E050F05C-3661-4740-9997-BF97EEEA299C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EEAB6E8-4F5F-497D-859C-7159C91A8AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7EEAB6E8-4F5F-497D-859C-7159C91A8AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EEAB6E8-4F5F-497D-859C-7159C91A8AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -21,7 +21,7 @@ namespace ServerLogic.Components {
 			this.TextureId = textureId;
 		}
 
-		public override void ProcessMessage(ComponentMessageBase msg) {
+		public override void ProcessMessage(IComponentMessage msg) {
 			switch (msg.ComponentMessageType) {
 				case ComponentMessageType.None:
 					break;

@@ -63,7 +63,6 @@ namespace BattleRoyale {
 			lock (streamLocker) {
 
 			}
-			throw new NotImplementedException();
 		}
 
 		void ProcessClient() {

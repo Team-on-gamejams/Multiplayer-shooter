@@ -12,6 +12,5 @@ namespace Common {
 		event Action<GameObjectState[]> OnWorldUpdate;
 
 		void SentPlayerAction(BasePlayerAction playerAction);
-		//GameObjectState[] GetWorldState();
 	}
 }

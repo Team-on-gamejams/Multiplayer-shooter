@@ -12,7 +12,6 @@ namespace Common {
 		bool TryDequeuePlayerAction(out BasePlayerAction playerAction);
 		void SendWorldState(GameObjectState[] worldState);
 
-		void AppendPlayer();
 		void KickAllPlayers();
 	}
 }

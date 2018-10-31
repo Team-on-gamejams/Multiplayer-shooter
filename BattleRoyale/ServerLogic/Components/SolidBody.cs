@@ -15,7 +15,7 @@ namespace ServerLogic.Components {
 			this.isSemisolid = isSemisolid;
 		}
 
-		public override void ProcessMessage(ComponentMessageBase msg) {
+		public override void ProcessMessage(IComponentMessage msg) {
 			switch (msg.ComponentMessageType) {
 				case ComponentMessageType.None:
 					break;

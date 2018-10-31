@@ -101,14 +101,6 @@
       <Project>{3415a607-e60e-4db1-bed0-ee9b84ebc295}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Graphic\Graphic.csproj">
-      <Project>{dc13832f-25c7-4187-866b-a898eea0d779}</Project>
-      <Name>Graphic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Media\Media.csproj">
-      <Project>{e050f05c-3661-4740-9997-bf97eeea299c}</Project>
-      <Name>Media</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Network\Network.csproj">
       <Project>{77c433b6-afa1-4066-9dd0-14f02fdebd23}</Project>
       <Name>Network</Name>

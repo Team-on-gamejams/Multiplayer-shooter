@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Common {
-	public enum PlayerActionType : byte {
-		MoveForward,
-		MoveBackward,
-		MoveLeft,
-		MoveRight,
-		SkillLMB,
-		SkillRMB
+	public enum GameObjectType : byte {
+		None,
+		Player,
+		Floor,
+		Wall
 	}
 }

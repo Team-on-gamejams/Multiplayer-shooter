@@ -23,28 +23,6 @@ namespace Server {
 			clients = new List<ClientInfo>();
 		}
 
-		public void AppendPlayer() {
-			throw new NotImplementedException();
-		}
-
-		public void KickAllPlayers() {
-			throw new NotImplementedException();
-		}
-
-		public void SendWorldState(GameObjectState[] worldState) {
-			List<byte> data = new List<byte>();
-			foreach (var state in worldState) 
-				data.AddRange(GameObjectState.Serialize(state));
-
-			Console.WriteLine($"Send {data.Count} bytes {new DateTime(worldState[0].ticks).ToLongTimeString()}    {worldState.Length}");
-			lock (clientsLocker) {
-				foreach (var c in clients) {
-					lock (c.locker)
-						c.Send(data.ToArray());
-				}
-			}
-		}
-
 		public void StartServer(string _ip, ushort _port) {
 			this.ip = IPAddress.Parse(_ip);
 			this.port = _port;
@@ -64,6 +42,15 @@ namespace Server {
 			while (serverThread.IsAlive)
 				Thread.Sleep(250);
 			server.Stop();
+		}
+
+		public void KickAllPlayers() {
+			lock (clientsLocker) {
+				foreach (var client in clients) {
+					if (client.isRunning)
+						client.isRunning = false;
+				}
+			}
 		}
 
 		public bool TryDequeuePlayerAction(out BasePlayerAction playerAction) {
@@ -102,6 +89,24 @@ namespace Server {
 				}
 			}
 
+			lock (clientInfo.locker) {
+				clientInfo.stream.Close();
+				clientInfo.client.Close();
+			}
+		}
+
+		public void SendWorldState(GameObjectState[] worldState) {
+			List<byte> data = new List<byte>();
+			foreach (var state in worldState)
+				data.AddRange(GameObjectState.Serialize(state));
+
+			Console.WriteLine($"Send {data.Count} bytes {new DateTime(worldState[0].ticks).ToLongTimeString()}    {worldState.Length}");
+			lock (clientsLocker) {
+				foreach (var c in clients) {
+					lock (c.locker)
+						c.Send(data.ToArray());
+				}
+			}
 		}
 	}
 }

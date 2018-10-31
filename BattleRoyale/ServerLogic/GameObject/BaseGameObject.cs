@@ -5,19 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Common;
 using ServerLogic.Components;
 
 namespace ServerLogic.GameObject {
-	class BaseGameObject : IDisposable {
+	class BaseGameObject : Common.IGameObject, IDisposable {
 		static ulong lastId = 0;
 
-		public void SendMessage(ComponentMessageBase msg) => messageQueue.Enqueue(msg);
-		public bool TryReadMessage(out ComponentMessageBase msg) => messageQueue.TryDequeue(out msg);
+		public void SendMessage(IComponentMessage msg) => messageQueue.Enqueue(msg);
+		public bool TryReadMessage(out IComponentMessage msg) => messageQueue.TryDequeue(out msg);
 
-		public BaseComponent[] Components => components.ToArray();
+		public IComponent[] Components => components.ToArray();
 		public ulong Id { get; private set; }
 
-		public T GetComponent<T>() where T : BaseComponent {
+		public T GetComponent<T>() where T : class, IComponent {
 			foreach (var c in components)
 				if (c.GetType() == typeof(T) || c.GetType().IsSubclassOf(typeof(T)))
 					return c as T;
@@ -33,29 +34,29 @@ namespace ServerLogic.GameObject {
 			});
 
 			while (messageQueue.Count > 0) {
-				if (messageQueue.TryDequeue(out ComponentMessageBase msg))
+				if (messageQueue.TryDequeue(out IComponentMessage msg))
 					foreach (var component in components)
 						component.ProcessMessage(msg);
 			}
 		}
 
 		public GameObjectType GOType { get; protected set; }
-		public BaseGameObject Parent { get; protected set; }
+		public IGameObject Parent { get; protected set; }
 
 		public bool IsDisposed() => isDisposed;
 		public void Dispose() => isDisposed = true;
 
-		protected List<BaseComponent> components;
+		protected List<IComponent> components;
 
 		GameObjectType goType;
-		BaseGameObject parent;
-		ConcurrentQueue<ComponentMessageBase> messageQueue;
+		IGameObject parent;
+		ConcurrentQueue<IComponentMessage> messageQueue;
 		ulong id;
 		bool isDisposed;
 
 		protected BaseGameObject(GameObjectType goType, BaseGameObject parent) {
-			messageQueue = new ConcurrentQueue<ComponentMessageBase>();
-			components = new List<BaseComponent>();
+			messageQueue = new ConcurrentQueue<IComponentMessage>();
+			components = new List<IComponent>();
 			id = ++lastId;
 			isDisposed = false;
 
