@@ -18,19 +18,28 @@ namespace ServerLogic.Components {
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
-			switch (msg.ComponentMessageType) {
-				case ComponentMessageType.MoveForward:
-					uint dX = (uint)Math.Round(Cos(solidBody.Angle) * speed),
-				   dY = (uint)Math.Round(Sin(solidBody.Angle) * speed);
+			if (msg.ComponentMessageType == ComponentMessageType.MoveForward ||
+				msg.ComponentMessageType == ComponentMessageType.MoveBackward ||
+				msg.ComponentMessageType == ComponentMessageType.MoveLeft ||
+				msg.ComponentMessageType == ComponentMessageType.MoveRight
+			) {
+				double angle = solidBody.Angle;
 
-					solidBody.AddToCoords(dX, dY);
-					break;
-				case ComponentMessageType.MoveBackward:
-					break;
-				case ComponentMessageType.MoveLeft:
-					break;
-				case ComponentMessageType.MoveRight:
-					break;
+				switch (msg.ComponentMessageType) {
+					case ComponentMessageType.MoveBackward:
+						angle += 180;
+						break;
+					case ComponentMessageType.MoveLeft:
+						angle -= 90;
+						break;
+					case ComponentMessageType.MoveRight:
+						angle += 90;
+						break;
+				}
+				angle = angle * Math.PI / 180;
+				uint dX = (uint)Math.Round(Cos(angle) * speed),
+					   dY = (uint)Math.Round(Sin(angle) * speed);
+				solidBody.AddToCoords(dX, dY);
 			}
 		}
 

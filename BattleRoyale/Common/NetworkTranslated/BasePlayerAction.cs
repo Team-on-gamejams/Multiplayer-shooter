@@ -26,7 +26,7 @@ namespace Common {
 
 		static public BasePlayerAction Deserialize(byte[] bytes) {
 			if (bytes.Length != OneObjectSize)
-				throw new ApplicationException("Wrong byte[] size in static public GameObjectState Deserialize(byte[] bytes);");
+				throw new ApplicationException("Wrong byte[] size in static public BasePlayerAction Deserialize(byte[] bytes);");
 
 			return new BasePlayerAction((PlayerActionType)bytes[0]);
 		}

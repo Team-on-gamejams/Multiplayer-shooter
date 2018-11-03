@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using System.Runtime.InteropServices;
+using static BattleRoyale.Extensions;
 
 namespace BattleRoyale {
 	/// <summary>
@@ -440,16 +440,6 @@ namespace BattleRoyale {
 				default:
 					break;
 			}
-		}
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool AllocConsole();
-	}
-
-	static class Ext {
-		static public Common.Coord ToCoord(this Point p) {
-			return new Common.Coord((uint)p.X, (uint)p.Y);
 		}
 	}
 }
