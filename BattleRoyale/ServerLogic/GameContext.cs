@@ -37,9 +37,20 @@ namespace ServerLogic {
 
 		public void SetServer(IServer server) {
 			this.server = server;
+
+			server.ClientConnected += (a) => {
+				PlayerObject player = new PlayerObject(new Coord(113, 113), a.playerChampionType);
+				players.Add(player);
+
+				return new ClientConnectResponce() { playerId = player.Id };
+			};
 		}
 
 		public void LoadMap() {
+			map.Clear();
+			players.Clear();
+			gameObjects.Clear();
+
 			for (byte i = 0; i < 10; ++i) {
 				for (byte j = 0; j < 10; ++j) {
 					if (i == 0 || j == 0 || i == 9 || j == 9)
@@ -48,9 +59,6 @@ namespace ServerLogic {
 						map.Add(new FloorMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), TextureId.DungeonFloor));
 				}
 			}
-
-			players.Add(new PlayerObject(new Coord(113, 113)));
-			Console.WriteLine(players[0].Id);
 		}
 
 		public void StartGame() {

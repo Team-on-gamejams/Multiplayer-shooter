@@ -13,5 +13,7 @@ namespace Common {
 		void SendWorldState(GameObjectState[] worldState);
 
 		void KickAllPlayers();
+
+		event Func<ClientConnect, ClientConnectResponce> ClientConnected;
 	}
 }

@@ -13,9 +13,9 @@ namespace Server {
 		public NetworkStream stream;
 		public ulong playerId;
 
-		public void Send(byte[] data) {
+		public void Send(Common.PacketType packetType, byte[] data) {
 			lock (locker) {
-				Network.Protocol.BaseSend(stream, data);
+				Network.Protocol.BaseSend(stream, packetType, data);
 			}
 		}
 	}

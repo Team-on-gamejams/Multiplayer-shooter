@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Common {
 	public interface IClient {
+		ulong PlayerId { get; set; }
+
 		void Connect(string ip, ushort port);
 		void Disconnect();
 

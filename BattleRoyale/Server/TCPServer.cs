@@ -21,6 +21,8 @@ namespace Server {
 		IPAddress ip;
 		ushort port;
 
+		public event Func<ClientConnect, ClientConnectResponce> ClientConnected;
+
 		public TCPServer() {
 			clients = new List<ClientInfo>();
 			playerActions = new ConcurrentQueue<BasePlayerAction>();
@@ -72,28 +74,54 @@ namespace Server {
 			if (!(_client is TcpClient))
 				return;
 
-			ClientInfo clientInfo = new ClientInfo();
-			clientInfo.isRunning = true;
-			clientInfo.thread = Thread.CurrentThread;
-			clientInfo.client = _client as TcpClient;
+			ClientInfo clientInfo = new ClientInfo {
+				isRunning = true,
+				thread = Thread.CurrentThread,
+				client = _client as TcpClient
+			};
 			clientInfo.stream = clientInfo.client.GetStream();
 
 			lock (clientsLocker) {
 				clients.Add(clientInfo);
 			}
 
-			byte[] data = new byte[BasePlayerAction.OneObjectSize];
+			byte[] data = new byte[ClientConnect.OneObjectSize];
+
+			{
+				ClientConnect clientConnect;
+				ClientConnectResponce responce;
+
+				lock (clientInfo.locker) {
+					while (!clientInfo.stream.DataAvailable)
+						Thread.Sleep(1);
+
+					PacketType type = Protocol.BaseRecieve(clientInfo.stream, out data);
+					if (type == PacketType.ClientConnect) {
+						clientConnect = ClientConnect.Deserialize(data);
+
+						responce = ClientConnected(clientConnect);
+						clientInfo.playerId = responce.playerId;
+						clientInfo.Send(PacketType.ClientConnectResponce, ClientConnectResponce.Serialize(responce));
+					}
+					else
+						throw new Exception("Recieve smth wrong in Server.ProcessClient()");
+				}
+			}
+
+			data = new byte[BasePlayerAction.OneObjectSize];
 			BasePlayerAction action;
 
-			while(clientInfo.isRunning) {
+			while (clientInfo.isRunning) {
 				lock (clientInfo.locker) {
 					if (!clientInfo.stream.DataAvailable)
 						continue;
 
-					Protocol.BaseRecieve(clientInfo.stream, out data);
-					action = BasePlayerAction.Deserialize(data);
-					action.playerId = 0;
-					playerActions.Enqueue(action);
+					PacketType type = Protocol.BaseRecieve(clientInfo.stream, out data);
+					if (type == PacketType.PlayerAction) {
+						action = BasePlayerAction.Deserialize(data);
+						action.playerId = clientInfo.playerId;
+						playerActions.Enqueue(action);
+					}
 				}
 			}
 
@@ -112,7 +140,7 @@ namespace Server {
 			lock (clientsLocker) {
 				foreach (var c in clients) {
 					lock (c.locker)
-						c.Send(data.ToArray());
+						c.Send(PacketType.WorldState, data.ToArray());
 				}
 			}
 		}

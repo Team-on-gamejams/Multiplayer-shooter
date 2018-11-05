@@ -52,15 +52,14 @@ namespace Common {
 			if (bytes.Length != OneObjectSize)
 				throw new ApplicationException("Wrong byte[] size in static public GameObjectState Deserialize(byte[] bytes);");
 
-			GameObjectState rez = new GameObjectState();
-			rez.TextureId = (TextureId)bytes[0];
-			rez.Id = (ulong)BitConverter.ToInt64(bytes, 1);
-			rez.Pos.x = (uint)BitConverter.ToInt32(bytes, 9);
-			rez.Pos.y = (uint)BitConverter.ToInt32(bytes, 13);
-			rez.Angle = BitConverter.ToInt16(bytes, 17);
-			rez.Size.width = (uint)BitConverter.ToInt32(bytes, 19);
-			rez.Size.height = (uint)BitConverter.ToInt32(bytes, 23);
-			rez.ticks = BitConverter.ToInt64(bytes, 27);
+			GameObjectState rez = new GameObjectState {
+				TextureId = (TextureId)bytes[0],
+				Id = (ulong)BitConverter.ToInt64(bytes, 1),
+				Pos = new Coord((uint)BitConverter.ToInt32(bytes, 9), (uint)BitConverter.ToInt32(bytes, 13)),
+				Angle = BitConverter.ToInt16(bytes, 17),
+				Size = new Size((uint)BitConverter.ToInt32(bytes, 19), (uint)BitConverter.ToInt32(bytes, 23)),
+				ticks = BitConverter.ToInt64(bytes, 27),
+			};
 
 			return rez;
 		}

@@ -11,6 +11,7 @@ using Network;
 
 namespace BattleRoyale {
 	class TCPClient : Common.IClient {
+		public ulong PlayerId { get; set; }
 		bool isRunning;
 		Thread clientThread;
 		TcpClient client;
@@ -22,13 +23,13 @@ namespace BattleRoyale {
 
 		Task updateTask;
 
+		public event Action<GameObjectState[]> OnWorldUpdate;
+
 		//ConcurrentQueue<GameObjectState[]> lastStates;
 
 		public TCPClient() {
 			//lastStates = new ConcurrentQueue<GameObjectState[]>();
 		}
-
-		public event Action<GameObjectState[]> OnWorldUpdate;
 
 		public void Connect(string ip, ushort port) {
 			this.ip = IPAddress.Parse(ip);
@@ -38,6 +39,29 @@ namespace BattleRoyale {
 			client = new TcpClient();
 			client.Connect(ip, port);
 			stream = client.GetStream();
+
+			lock (streamLocker) {
+				Protocol.BaseSend(stream, PacketType.ClientConnect, ClientConnect.Serialize(
+					new ClientConnect() {
+						playerChampionType = PlayerChampionType.Jade
+					})
+				);
+
+				while (!stream.DataAvailable)
+					Thread.Sleep(1);
+
+				byte[] data = new byte[ClientConnectResponce.OneObjectSize];
+				ClientConnectResponce responce;
+
+				PacketType type = Protocol.BaseRecieve(stream, out data);
+				if (type == PacketType.ClientConnectResponce) {
+					responce = ClientConnectResponce.Deserialize(data);
+					PlayerId = responce.playerId;
+					Console.WriteLine(PlayerId);
+				}
+				else
+					throw new Exception("Recieve smth wrong in Client.Connect()");
+			}
 
 			clientThread = new Thread(() => {
 				ProcessClient();
@@ -61,7 +85,7 @@ namespace BattleRoyale {
 
 		public void SentPlayerAction(BasePlayerAction playerAction) {
 			lock (streamLocker) {
-				Protocol.BaseSend(stream, BasePlayerAction.Serialize(playerAction));
+				Protocol.BaseSend(stream, PacketType.PlayerAction, BasePlayerAction.Serialize(playerAction));
 			}
 		}
 
@@ -71,26 +95,28 @@ namespace BattleRoyale {
 					if (!stream.DataAvailable)
 						continue;
 
-					Protocol.BaseRecieve(stream, out byte[] data);
+					PacketType type = Protocol.BaseRecieve(stream, out byte[] data);
 
-					if (data.Length % GameObjectState.OneObjectSize != 0) {
-						Console.WriteLine($"Recieve {data.Length} bytes. BUT IT WRONG!!!11!");
-						throw new Exception("Recieve smth wrong in UDPClient.ProcessClient()");
+					if (type == PacketType.WorldState) {
+						if (data.Length % GameObjectState.OneObjectSize != 0) {
+							Console.WriteLine($"Recieve {data.Length} bytes. BUT IT WRONG!!!11!");
+							throw new Exception("Recieve smth wrong in UDPClient.ProcessClient()");
+						}
+
+						GameObjectState[] states = new GameObjectState[data.Length / GameObjectState.OneObjectSize];
+
+						byte[] clone = new byte[GameObjectState.OneObjectSize];
+						for (int i = 0; i < states.Length; ++i) {
+							Array.Copy(data, i * GameObjectState.OneObjectSize, clone, 0, GameObjectState.OneObjectSize);
+							states[i] = GameObjectState.Deserialize(clone);
+						}
+
+						updateTask = new Task(() => {
+							OnWorldUpdate.Invoke(states);
+						});
+						updateTask.Start();
+						//lastStates.Enqueue(states);
 					}
-
-					GameObjectState[] states = new GameObjectState[data.Length / GameObjectState.OneObjectSize];
-
-					byte[] clone = new byte[GameObjectState.OneObjectSize];
-					for(int i = 0; i < states.Length; ++i) {
-						Array.Copy(data, i * GameObjectState.OneObjectSize, clone, 0, GameObjectState.OneObjectSize);
-						states[i] = GameObjectState.Deserialize(clone);
-					}
-
-					updateTask = new Task(()=> {
-						OnWorldUpdate.Invoke(states);
-					});
-					updateTask.Start();
-					//lastStates.Enqueue(states);
 				}
 			}
 		}

@@ -46,23 +46,19 @@ namespace ServerLogic.GameObject {
 		public bool IsDisposed() => isDisposed;
 		public void Dispose() => isDisposed = true;
 
-		protected List<IComponent> components;
+		protected readonly List<IComponent> components;
 
-		GameObjectType goType;
-		IGameObject parent;
-		ConcurrentQueue<IComponentMessage> messageQueue;
-		ulong id;
+		readonly ConcurrentQueue<IComponentMessage> messageQueue;
 		bool isDisposed;
 
 		protected BaseGameObject(GameObjectType goType, BaseGameObject parent) {
 			messageQueue = new ConcurrentQueue<IComponentMessage>();
 			components = new List<IComponent>();
-			id = ++lastId;
+			Id = ++lastId;
 			isDisposed = false;
 
-			this.goType = goType;
-			this.parent = parent;
-
+			this.GOType = goType;
+			this.Parent = parent;
 		}
 	}
 }
