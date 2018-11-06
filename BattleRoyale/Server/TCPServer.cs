@@ -122,13 +122,34 @@ namespace Server {
 						action.playerId = clientInfo.playerId;
 						playerActions.Enqueue(action);
 					}
+					else if (type == PacketType.ClientDisconnect) {
+						//Console.WriteLine("Client going to disconnect");
+						ClientDisconnect disconnectInfo = ClientDisconnect.Deserialize(data);
+						//Console.WriteLine("Deserialize disconnect data");
+						clientInfo.Send(PacketType.ClientDisconnectResponce, ClientDisconnectResponce.Serialize(
+							new ClientDisconnectResponce() {
+
+							}
+						));
+						//Console.WriteLine("Send ClientDisconnectResponce");
+						clientInfo.isRunning = false;
+					}
+
 				}
 			}
 
-			lock (clientInfo.locker) {
-				clientInfo.stream.Close();
-				clientInfo.client.Close();
+			lock (clientsLocker) {
+				//Console.WriteLine("Close client streams");
+				lock (clientInfo.locker) {
+					clientInfo.stream.Close();
+					clientInfo.client.Close();
+				}
+
+				//Console.WriteLine("Try to remove from clients");
+				clients.Remove(clientInfo);
 			}
+
+			//Console.WriteLine("Close client");
 		}
 
 		public void SendWorldState(GameObjectState[] worldState) {
@@ -139,7 +160,8 @@ namespace Server {
 			lock (clientsLocker) {
 				foreach (var c in clients) {
 					lock (c.locker)
-						c.Send(PacketType.WorldState, data.ToArray());
+						if(c.isRunning)
+							c.Send(PacketType.WorldState, data.ToArray());
 				}
 			}
 		}

@@ -68,12 +68,48 @@ namespace BattleRoyale {
 			clientThread.Start();
 		}
 
+		bool IsDisconnected = false;
 		public void Disconnect() {
+			if (IsDisconnected)
+				return;
+
+			IsDisconnected = true;
+			//Console.WriteLine("Start disconnect");
+
 			isRunning = false;
 			while (clientThread.IsAlive)
-				Thread.Sleep(250);
+				Thread.Sleep(100);
+			//Console.WriteLine("clientThread stopped");
+
+			lock (streamLocker) {
+				Protocol.BaseSend(stream, PacketType.ClientDisconnect, ClientDisconnect.Serialize(
+					new ClientDisconnect() {
+						
+					})
+				);
+				//Console.WriteLine("Send ClientDisconnect");
+
+				while (!stream.DataAvailable)
+					Thread.Sleep(100);
+
+				//Console.WriteLine("Receive ClientDisconnectResponce");
+
+				byte[] data = new byte[ClientDisconnectResponce.OneObjectSize];
+				ClientDisconnectResponce responce;
+
+				PacketType type = Protocol.BaseRecieve(stream, out data);
+				if (type == PacketType.ClientDisconnectResponce) {
+					responce = ClientDisconnectResponce.Deserialize(data);
+					//Console.WriteLine("Deserialize ClientDisconnectResponce");
+				}
+				else
+					throw new Exception("Recieve smth wrong in Client.Disconnect()");
+			}
+
 			stream.Close();
 			client.Close();
+
+			//Console.WriteLine("End disconnect");
 		}
 
 		//public GameObjectState[] GetWorldState() {

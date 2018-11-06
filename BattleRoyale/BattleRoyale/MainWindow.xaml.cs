@@ -26,6 +26,14 @@ namespace BattleRoyale {
 			InitializeComponent();
 
 			client = new TCPClient();
+
+			Console.CancelKeyPress += (a, b) => {
+				client.Disconnect();
+			};
+
+			this.Closing += (a, b) => {
+				client.Disconnect();
+			};
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
