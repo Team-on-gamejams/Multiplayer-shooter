@@ -15,7 +15,7 @@ namespace ServerLogic.GameObject {
 			this.PlayerChampionType = PlayerChampionType;
 
 			components.Add(new SolidBody(this, initPos, new Size(25, 25), 0, false, TextureId.Player));
-			components.Add(new Moveable(this, 10));
+			components.Add(new Moveable(this, 7));
 		}
 	}
 }

@@ -54,14 +54,18 @@ namespace ServerLogic {
 			players.Clear();
 			gameObjects.Clear();
 
+			map.Add(new FloorMapObject(new Coord(0, 0), new Size(500, 500), TextureId.DungeonFloor));
+
 			for (byte i = 0; i < 10; ++i) {
 				for (byte j = 0; j < 10; ++j) {
-					if (i == 0 || j == 0 || i == 9 || j == 9)
-						map.Add(new WallMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), TextureId.DungeonWall));
-					else
-						map.Add(new FloorMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), TextureId.DungeonFloor));
+					if (i == 0 || j == 0)
+						map.Add(new WallMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), new Size(51, 51), TextureId.DungeonWall));
 				}
 			}
+
+			map.Add(new WallMapObject(new Coord(50, 450), new Size(450, 50), TextureId.DungeonWall));
+			map.Add(new WallMapObject(new Coord(450, 50), new Size(50, 450), TextureId.DungeonWall));
+
 		}
 
 		public void StartGame() {
@@ -117,7 +121,7 @@ namespace ServerLogic {
 					nextTickfps += skipTickfps;
 				}
 				else
-					System.Threading.Thread.Sleep(skipTickfps / 2);
+					System.Threading.Thread.Sleep(nextTickfps - Environment.TickCount);
 
 			}
 		}
