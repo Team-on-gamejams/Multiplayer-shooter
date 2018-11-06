@@ -134,8 +134,10 @@ namespace BattleRoyale {
 		void ProcessClient() {
 			while (isRunning) {
 				lock (streamLocker) {
-					if (!stream.DataAvailable)
+					if (!stream.DataAvailable) {
+						System.Threading.Thread.Sleep(2);
 						continue;
+					}
 
 					PacketType type = Protocol.BaseRecieve(stream, out byte[] data);
 

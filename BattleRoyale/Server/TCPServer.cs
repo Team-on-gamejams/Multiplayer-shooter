@@ -119,8 +119,10 @@ namespace Server {
 
 			while (clientInfo.isRunning) {
 				lock (clientInfo.locker) {
-					if (!clientInfo.stream.DataAvailable)
+					if (!clientInfo.stream.DataAvailable) {
+						System.Threading.Thread.Sleep(2);
 						continue;
+					}
 
 					PacketType type = Protocol.BaseRecieve(clientInfo.stream, out data);
 					if (type == PacketType.PlayerAction) {

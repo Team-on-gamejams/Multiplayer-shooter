@@ -116,6 +116,9 @@ namespace ServerLogic {
 					Display();
 					nextTickfps += skipTickfps;
 				}
+				else
+					System.Threading.Thread.Sleep(skipTickfps / 2);
+
 			}
 		}
 
