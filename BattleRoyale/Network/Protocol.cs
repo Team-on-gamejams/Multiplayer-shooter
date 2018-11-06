@@ -17,8 +17,11 @@ namespace Network {
 			res = (PacketType)data[0];
 
 			//Recieve bytes
-			data = new byte[BitConverter.ToInt32(data, 1)];
-			stream.Read(data, 0, data.Length);
+			int expectedLen = BitConverter.ToInt32(data, 1);
+			data = new byte[expectedLen];
+			int receiveLen = stream.Read(data, 0, data.Length);
+			while(receiveLen < expectedLen) 
+				stream.Read(data, receiveLen, data.Length - receiveLen);
 
 			return res;
 		}

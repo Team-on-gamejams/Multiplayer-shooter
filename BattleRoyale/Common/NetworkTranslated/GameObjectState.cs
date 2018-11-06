@@ -11,12 +11,10 @@ namespace Common {
 		public Coord Pos { get; set; }
 		public short Angle { get; set; }
 		public Size Size { get; set; }
-		public long ticks;
 
 		public GameObjectState() {
 			Pos = new Coord();
 			Size = new Size();
-			ticks = DateTime.Now.Ticks;
 		}
 
 		public GameObjectState(TextureId textureId, ulong id, Coord pos, short angle, Size size) {
@@ -25,10 +23,9 @@ namespace Common {
 			Pos = pos;
 			Angle = angle;
 			Size = size;
-			ticks = DateTime.Now.Ticks;
 		}
 
-		static public byte OneObjectSize => /*1 + 8 + 2 * 4 + 2 + 2 * 4*/27 + 8;
+		static public byte OneObjectSize => /*1 + 8 + 2 * 4 + 2 + 2 * 4*/27;
 
 		static public byte[] Serialize(GameObjectState state) {
 			byte[] bytes = new byte[OneObjectSize];
@@ -43,7 +40,6 @@ namespace Common {
 
 			Array.Copy(BitConverter.GetBytes(state.Size.width), 0, bytes, 19, 4);
 			Array.Copy(BitConverter.GetBytes(state.Size.height), 0, bytes, 23, 4);
-			Array.Copy(BitConverter.GetBytes(state.ticks), 0, bytes, 27, 8);
 
 			return bytes;
 		}
@@ -58,7 +54,6 @@ namespace Common {
 				Pos = new Coord((uint)BitConverter.ToInt32(bytes, 9), (uint)BitConverter.ToInt32(bytes, 13)),
 				Angle = BitConverter.ToInt16(bytes, 17),
 				Size = new Size((uint)BitConverter.ToInt32(bytes, 19), (uint)BitConverter.ToInt32(bytes, 23)),
-				ticks = BitConverter.ToInt64(bytes, 27),
 			};
 
 			return rez;

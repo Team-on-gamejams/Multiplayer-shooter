@@ -57,7 +57,6 @@ namespace BattleRoyale {
 				if (type == PacketType.ClientConnectResponce) {
 					responce = ClientConnectResponce.Deserialize(data);
 					PlayerId = responce.playerId;
-					Console.WriteLine(PlayerId);
 				}
 				else
 					throw new Exception("Recieve smth wrong in Client.Connect()");
@@ -99,7 +98,6 @@ namespace BattleRoyale {
 
 					if (type == PacketType.WorldState) {
 						if (data.Length % GameObjectState.OneObjectSize != 0) {
-							Console.WriteLine($"Recieve {data.Length} bytes. BUT IT WRONG!!!11!");
 							throw new Exception("Recieve smth wrong in UDPClient.ProcessClient()");
 						}
 
