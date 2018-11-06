@@ -20,6 +20,7 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+		Common.GameObjectState playerState;
 		Common.IClient client;
 
 		public MainWindow() {
@@ -75,6 +76,9 @@ namespace BattleRoyale {
 						newState.Add(image);
 						image.Tag = state.Id;
 					});
+
+					if (state.Id == client.PlayerId)
+						playerState = state;
 				}
 
 				this.Dispatcher.Invoke(() => {
@@ -456,6 +460,17 @@ namespace BattleRoyale {
 				default:
 					break;
 			}
+		}
+
+		private void Window_MouseMove(object sender, MouseEventArgs e) {
+			short angle = 0;
+
+			//playerState.Pos;
+			//e.GetPosition(this);
+
+			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.PlayerChangeAngle) {
+				newAngle = angle,
+			});
 		}
 	}
 }

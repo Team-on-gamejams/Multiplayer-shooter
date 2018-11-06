@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 namespace Common {
 	public class BasePlayerAction {
 		public PlayerActionType actionType;
-		//Fill on server
+
+		//Use only if actionType == PlayerChangeAngle
+		public short newAngle;
+
+		//Fill and use only on server
 		public ulong playerId;
 
 		public BasePlayerAction() : this(PlayerActionType.None) {
@@ -18,17 +22,25 @@ namespace Common {
 			this.actionType = actionType;
 		}
 
-		static public byte OneObjectSize => 1;
+		static public byte OneObjectSize => 3;
 
 		static public byte[] Serialize(BasePlayerAction state) {
-			return new byte[] { (byte)state.actionType };
+			byte[] bytes = new byte[OneObjectSize];
+
+			bytes[0] = (byte)state.actionType;
+			Array.Copy(BitConverter.GetBytes(state.newAngle), 0, bytes, 1, 2);
+
+			return bytes;
 		}
 
 		static public BasePlayerAction Deserialize(byte[] bytes) {
 			if (bytes.Length != OneObjectSize)
 				throw new ApplicationException("Wrong byte[] size in static public BasePlayerAction Deserialize(byte[] bytes);");
 
-			return new BasePlayerAction((PlayerActionType)bytes[0]);
+			var state = new BasePlayerAction((PlayerActionType)bytes[0]);
+			state.newAngle = BitConverter.ToInt16(bytes, 1);
+
+			return state;
 		}
 	}
 }

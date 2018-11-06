@@ -12,6 +12,8 @@
         Closing="Window_Closing"
         Closed="Window_Closed"
         KeyDown="Window_KeyDown"
+        
+        MouseMove="Window_MouseMove"
         >
     <Grid>
         <Canvas x:Name="GameCanvas" Background="White">

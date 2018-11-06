@@ -14,6 +14,8 @@ namespace Common {
 		MoveLeft,
 		MoveRight,
 		SkillLMB,
-		SkillRMB
+		SkillRMB,
+
+		PlayerChangeAngle,
 	}
 }
