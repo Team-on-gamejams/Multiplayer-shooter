@@ -40,6 +40,7 @@ namespace ServerLogic.Components {
 				uint dX = (uint)Math.Round(Cos(angle) * speed),
 					   dY = (uint)Math.Round(Sin(angle) * speed);
 				solidBody.AddToCoords(dX, dY);
+				Owner.IsUpdated = true;
 			}
 		}
 

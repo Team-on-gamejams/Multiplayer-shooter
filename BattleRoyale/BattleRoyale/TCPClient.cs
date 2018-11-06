@@ -97,13 +97,20 @@ namespace BattleRoyale {
 				byte[] data = new byte[ClientDisconnectResponce.OneObjectSize];
 				ClientDisconnectResponce responce;
 
-				PacketType type = Protocol.BaseRecieve(stream, out data);
+				PacketType type;
+				byte maxReadLoops = 100;
+				do {
+					type = Protocol.BaseRecieve(stream, out data);
+					if (--maxReadLoops == 0)
+						break;
+				} while (type != PacketType.ClientDisconnectResponce);
+
 				if (type == PacketType.ClientDisconnectResponce) {
 					responce = ClientDisconnectResponce.Deserialize(data);
 					//Console.WriteLine("Deserialize ClientDisconnectResponce");
 				}
-				else
-					throw new Exception("Recieve smth wrong in Client.Disconnect()");
+				else 
+					throw new Exception("Wait for PacketType.ClientDisconnectResponce, but maxReadLoops(now 100) reached 0");
 			}
 
 			stream.Close();

@@ -42,7 +42,10 @@ namespace ServerLogic {
 				PlayerObject player = new PlayerObject(new Coord(113, 113), a.playerChampionType);
 				players.Add(player);
 
-				return new ClientConnectResponce() { playerId = player.Id };
+				return new ClientConnectResponce() {
+					playerId = player.Id,
+					initialWorldState = GetAllTexturedStates(),
+				};
 			};
 		}
 
@@ -122,6 +125,57 @@ namespace ServerLogic {
 
 			foreach (var i in map) {
 				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null && i.IsUpdated) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+					i.IsUpdated = false;
+				}
+			}
+
+			foreach (var i in players) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null && i.IsUpdated) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+					i.IsUpdated = false;
+				}
+			}
+
+			foreach (var i in gameObjects) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
+				if (texturedObj != null && i.IsUpdated) {
+					states.Add(new GameObjectState(
+						texturedObj.TextureId, i.Id,
+						texturedObj.Pos, texturedObj.Angle,
+						texturedObj.Size
+					));
+					i.IsUpdated = false;
+				}
+			}
+
+			server.SendChangedWorldState(states.ToArray());
+		}
+
+		void Update() {
+			ReadPlayersInput();
+			ProcessMessages();
+
+
+			//RemoveDisposedObjects();
+		}
+
+		public GameObjectState[] GetAllTexturedStates() {
+			List<GameObjectState> states = new List<GameObjectState>(map.Count + players.Count + gameObjects.Count);
+			Components.TexturedBody texturedObj;
+
+			foreach (var i in map) {
+				texturedObj = i.GetComponent<Components.TexturedBody>();
 				if (texturedObj != null) {
 					states.Add(new GameObjectState(
 						texturedObj.TextureId, i.Id,
@@ -153,15 +207,7 @@ namespace ServerLogic {
 				}
 			}
 
-			server.SendWorldState(states.ToArray());
-		}
-
-		void Update() {
-			ReadPlayersInput();
-			ProcessMessages();
-
-
-			//RemoveDisposedObjects();
+			return states.ToArray();
 		}
 
 		void ReadPlayersInput() {

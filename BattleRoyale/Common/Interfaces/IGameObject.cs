@@ -13,6 +13,7 @@ namespace Common {
 		IGameObject Parent { get; }
 		IComponent[] Components { get; }
 		ulong Id { get; }
+		bool IsUpdated { get; set; }
 
 		T GetComponent<T>() where T : class, IComponent;
 

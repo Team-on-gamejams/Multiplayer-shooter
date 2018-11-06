@@ -102,6 +102,12 @@ namespace Server {
 						responce = ClientConnected(clientConnect);
 						clientInfo.playerId = responce.playerId;
 						clientInfo.Send(PacketType.ClientConnectResponce, ClientConnectResponce.Serialize(responce));
+
+						List<byte> listWorldState = new List<byte>();
+						foreach (var state in responce.initialWorldState)
+							listWorldState.AddRange(GameObjectState.Serialize(state));
+						//Console.WriteLine($"Send {listWorldState.Count} bytes to player {responce.playerId}");
+						clientInfo.Send(PacketType.WorldState, listWorldState.ToArray());
 					}
 					else
 						throw new Exception("Recieve smth wrong in Server.ProcessClient()");
@@ -123,6 +129,8 @@ namespace Server {
 						playerActions.Enqueue(action);
 					}
 					else if (type == PacketType.ClientDisconnect) {
+						clientInfo.isRunning = false;
+						
 						//Console.WriteLine("Client going to disconnect");
 						ClientDisconnect disconnectInfo = ClientDisconnect.Deserialize(data);
 						//Console.WriteLine("Deserialize disconnect data");
@@ -132,7 +140,6 @@ namespace Server {
 							}
 						));
 						//Console.WriteLine("Send ClientDisconnectResponce");
-						clientInfo.isRunning = false;
 					}
 
 				}
@@ -152,16 +159,21 @@ namespace Server {
 			//Console.WriteLine("Close client");
 		}
 
-		public void SendWorldState(GameObjectState[] worldState) {
+		public void SendChangedWorldState(GameObjectState[] worldState) {
 			List<byte> data = new List<byte>();
 			foreach (var state in worldState)
 				data.AddRange(GameObjectState.Serialize(state));
+			byte[] bytes = data.ToArray();
+
+			//Console.WriteLine($"Send {bytes.Length} bytes");
+			if (bytes.Length == 0)
+				return;
 
 			lock (clientsLocker) {
 				foreach (var c in clients) {
 					lock (c.locker)
 						if(c.isRunning)
-							c.Send(PacketType.WorldState, data.ToArray());
+							c.Send(PacketType.WorldState, bytes);
 				}
 			}
 		}

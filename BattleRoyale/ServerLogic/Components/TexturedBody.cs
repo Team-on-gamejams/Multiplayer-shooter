@@ -19,6 +19,7 @@ namespace ServerLogic.Components {
 			this.Size = size;
 			this.Angle = angle;
 			this.TextureId = textureId;
+			Owner.IsUpdated = true;
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {

@@ -73,13 +73,21 @@ namespace BattleRoyale {
 						Canvas.SetLeft(image, state.Pos.x);
 						Canvas.SetTop(image, state.Pos.y);
 						newState.Add(image);
+						image.Tag = state.Id;
 					});
 				}
 
 				this.Dispatcher.Invoke(() => {
-					GameCanvas.Children.Clear();
-					foreach (var image in newState)
+					foreach (var image in newState) {
+						foreach (UIElement c in GameCanvas.Children) {
+							if((ulong)(c as Image).Tag == (ulong)image.Tag) {
+								GameCanvas.Children.Remove(c);
+								break;
+							}
+						}
+
 						GameCanvas.Children.Add(image);
+					}
 				});
 
 			};

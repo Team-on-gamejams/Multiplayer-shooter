@@ -13,6 +13,7 @@ namespace ServerLogic.Components {
 		public SolidBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, bool isSemisolid, TextureId textureId)
 			: base(owner, pos, size, angle, textureId) {
 			this.isSemisolid = isSemisolid;
+			Owner.IsUpdated = true;
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {

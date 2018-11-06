@@ -10,7 +10,7 @@ namespace Common {
 		void StopServer();
 
 		bool TryDequeuePlayerAction(out BasePlayerAction playerAction);
-		void SendWorldState(GameObjectState[] worldState);
+		void SendChangedWorldState(GameObjectState[] worldState);
 
 		void KickAllPlayers();
 

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace Common {
 	public class ClientConnectResponce {
 		public ulong playerId;
+		//Fill and use only at server side
+		public GameObjectState[] initialWorldState;
 
 		static public byte OneObjectSize => 8;
 
