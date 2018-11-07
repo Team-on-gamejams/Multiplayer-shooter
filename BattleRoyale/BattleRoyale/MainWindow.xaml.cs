@@ -20,7 +20,6 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
-		int camdx, camdy, camSpeed = 5;
 		Common.Coord camHalfFreeZone;
 		Common.Coord halsScreenSize;
 		Common.Coord camPos;
@@ -125,14 +124,13 @@ namespace BattleRoyale {
 
 						if (camPos != null) {
 							if (playerState.Pos.x > camPos.x + camHalfFreeZone.x)
-								MoveCamRight();
+								++camPos.x;
 							if (playerState.Pos.x < camPos.x - camHalfFreeZone.x)
-								MoveCamLeft();
+								++camPos.x;
 							if (playerState.Pos.y > camPos.y + camHalfFreeZone.y)
-								MoveCamUp();
+								++camPos.y;
 							if (playerState.Pos.y < camPos.y - camHalfFreeZone.y)
-								MoveCamDown();
-							ProcessCamMove();
+								++camPos.y;
 						}
 						else {
 							playerState = state;
@@ -219,40 +217,7 @@ namespace BattleRoyale {
 			});
 		}
 
-		public void MoveCamLeft() {
-			--camdx;
-		}
 
-		public void MoveCamUp() {
-			--camdy;
-		}
-
-		public void MoveCamRight() {
-			++camdx;
-		}
-
-		public void MoveCamDown() {
-			++camdy;
-		}
-
-		public void ProcessCamMove() {
-			if (camdx < 0) {
-				camPos.x -= (uint)camSpeed;
-				++camdx;
-			}
-			else if (camdx > 0) {
-				camPos.x += (uint)camSpeed;
-				--camdx;
-			}
-			else if (camdy < 0) {
-				camPos.y -= (uint)camSpeed;
-				++camdx;
-			}
-			else if (camdy > 0) {
-				camPos.y += (uint)camSpeed;
-				--camdx;
-			}
-		}
 
 		private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
 			halsScreenSize.x = (uint)Math.Round(RenderSize.Width / 2);
