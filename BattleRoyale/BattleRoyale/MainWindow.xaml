@@ -12,6 +12,7 @@
         Closing="Window_Closing"
         Closed="Window_Closed"
         KeyDown="Window_KeyDown"
+        KeyUp="Window_KeyUp"
         
         MouseMove="Window_MouseMove"
         >

@@ -121,7 +121,7 @@ namespace ServerLogic {
 					nextTickfps += skipTickfps;
 				}
 				else
-					System.Threading.Thread.Sleep(nextTickfps - Environment.TickCount);
+					System.Threading.Thread.Sleep(3);
 
 			}
 		}
@@ -218,9 +218,15 @@ namespace ServerLogic {
 		}
 
 		void ReadPlayersInput() {
-			while(server.TryDequeuePlayerAction(out BasePlayerAction action)) {
+			ComponentMessageBase message;
+			while (server.TryDequeuePlayerAction(out BasePlayerAction action)) {
+				if(action.actionType == PlayerActionType.PlayerChangeAngle) 
+					message = new ComponentMessageAngle((ComponentMessageType)action.actionType, action.newAngle);
+				else
+					message = new ComponentMessageBase((ComponentMessageType)action.actionType);
+
 				players.Find((p) => p.Id == action.playerId)?.
-					SendMessage(new ComponentMessageBase((ComponentMessageType)action.actionType));
+					SendMessage(message);
 			}
 		}
 

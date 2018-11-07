@@ -16,6 +16,6 @@ namespace Common {
 		SkillLMB,
 		SkillRMB,
 
-		PlayerChangeAngle,
+		AngleChanged,
 	}
 }

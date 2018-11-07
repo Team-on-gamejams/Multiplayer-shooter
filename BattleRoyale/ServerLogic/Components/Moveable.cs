@@ -11,10 +11,12 @@ using static System.Math;
 namespace ServerLogic.Components {
 	class Moveable : BaseComponent {
 		SolidBody solidBody;
-		byte speed;
+		readonly byte speed;
+		//bool isAbleToMove;
 
 		public Moveable(IGameObject owner, byte speed) : base(owner) {
 			this.speed = speed;
+			//isAbleToMove = true;
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
@@ -22,7 +24,15 @@ namespace ServerLogic.Components {
 				msg.ComponentMessageType == ComponentMessageType.MoveBackward ||
 				msg.ComponentMessageType == ComponentMessageType.MoveLeft ||
 				msg.ComponentMessageType == ComponentMessageType.MoveRight
-			) {
+			)
+				ProcessMove(msg);
+			//else if (msg.ComponentMessageType == ComponentMessageType.TickElapsed)
+				//isAbleToMove = true;
+		}
+
+		void ProcessMove(IComponentMessage msg) {
+			//if (isAbleToMove) {
+				//isAbleToMove = false;
 				double angle = solidBody.Angle;
 
 				switch (msg.ComponentMessageType) {
@@ -36,12 +46,13 @@ namespace ServerLogic.Components {
 						angle += 90;
 						break;
 				}
+
 				angle = angle * Math.PI / 180;
 				uint dX = (uint)Math.Round(Cos(angle) * speed),
 					   dY = (uint)Math.Round(Sin(angle) * speed);
 				solidBody.AddToCoords(dX, dY);
 				Owner.IsUpdated = true;
-			}
+			//}
 		}
 
 		public override bool CheckDependComponents() {

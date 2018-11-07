@@ -15,6 +15,6 @@ namespace Common {
 		SkillLMB = ComponentMessageType.SkillLMB,
 		SkillRMB = ComponentMessageType.SkillRMB,
 
-		PlayerChangeAngle = ComponentMessageType.PlayerChangeAngle,
+		PlayerChangeAngle = ComponentMessageType.AngleChanged,
 	}
 }

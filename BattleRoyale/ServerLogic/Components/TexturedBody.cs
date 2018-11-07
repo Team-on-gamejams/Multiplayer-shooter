@@ -23,7 +23,13 @@ namespace ServerLogic.Components {
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
+			if(msg.ComponentMessageType == ComponentMessageType.AngleChanged) 
+				ProcessAngleChanged(msg as ComponentMessageAngle);
+		}
 
+		void ProcessAngleChanged(ComponentMessageAngle msg) {
+			Angle = msg.Angle;
+			Owner.IsUpdated = true;
 		}
 
 		public void AppendCoords(Coord pos) {

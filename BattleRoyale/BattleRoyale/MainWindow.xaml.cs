@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Timers;
 
 using static BattleRoyale.Extensions;
 
@@ -20,11 +20,45 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+		
 		Common.GameObjectState playerState;
+
 		Common.IClient client;
+
+		Timer keysTimer;
+		object keysLocker = new object();
+		List<Key> pressedKeys;
 
 		public MainWindow() {
 			InitializeComponent();
+
+			pressedKeys = new List<Key>();
+			keysTimer = new Timer() {
+				AutoReset = true,
+				Enabled = true,
+				Interval = 200,
+			};
+
+			keysTimer.Elapsed += (a, b) => {
+				lock (keysLocker) {
+					foreach (var key in pressedKeys) {
+						switch (key) {
+							case Key.A:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveLeft));
+								break;
+							case Key.D:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveRight));
+								break;
+							case Key.S:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveBackward));
+								break;
+							case Key.W:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveForward));
+								break;
+						}
+					}
+				}
+			};
 
 			client = new TCPClient();
 
@@ -84,7 +118,7 @@ namespace BattleRoyale {
 				this.Dispatcher.Invoke(() => {
 					foreach (var image in newState) {
 						foreach (UIElement c in GameCanvas.Children) {
-							if((ulong)(c as Image).Tag == (ulong)image.Tag) {
+							if ((ulong)(c as Image).Tag == (ulong)image.Tag) {
 								GameCanvas.Children.Remove(c);
 								break;
 							}
@@ -106,30 +140,50 @@ namespace BattleRoyale {
 		}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e) {
-			switch (e.Key) {
-				case Key.A:
-					client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveLeft));
-					break;
-				case Key.D:
-					client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveRight));
-					break;
-				case Key.S:
-					client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveBackward));
-					break;
-				case Key.W:
-					client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveForward));
-					break;
-			}
+			lock (keysLocker)
+				if (!pressedKeys.Contains(e.Key))
+					pressedKeys.Add(e.Key);
+		}
+
+		private void Window_KeyUp(object sender, KeyEventArgs e) {
+			lock (keysLocker)
+				pressedKeys.Remove(e.Key);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
-			short angle = 0;
+			ChangeAngle(e.GetPosition(this));
+		}
 
-			//playerState.Pos;
-			//e.GetPosition(this);
+		void ChangeAngle(Point mspos) {
+			double newAngleRad = 0;
+			short newAngle = 0;
+
+			double plposx = playerState.Pos.x + playerState.Size.width / 2,
+				plposy = playerState.Pos.y + playerState.Size.height / 2;
+
+			double xs = mspos.X - plposx,
+				ys = mspos.Y - plposy;
+
+			//Console.WriteLine($"pl = {plposx} {plposy}");
+			//Console.WriteLine($"ms = {mspos.X} {mspos.Y}");
+			//Console.WriteLine($"ss = {xs} {ys}");
+
+			newAngleRad = Math.Atan(ys / xs);
+
+
+			//if (ys >= 0 && xs >= 0)
+			//	newAngleRad += Math.PI;
+			if (ys >= 0 && xs <= 0)
+				newAngleRad += Math.PI;
+			if (ys <= 0 && xs <= 0)
+				newAngleRad -= Math.PI;
+
+			newAngle = (short)Math.Round(newAngleRad * (180 / Math.PI));
+
+			Console.WriteLine($"angle = {newAngle}");
 
 			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.PlayerChangeAngle) {
-				newAngle = angle,
+				newAngle = newAngle,
 			});
 		}
 	}
