@@ -14,8 +14,6 @@
         KeyDown="Window_KeyDown"
         KeyUp="Window_KeyUp"
         
-        SizeChanged="Window_SizeChanged"
-        
         MouseMove="Window_MouseMove"
         >
     <Grid>

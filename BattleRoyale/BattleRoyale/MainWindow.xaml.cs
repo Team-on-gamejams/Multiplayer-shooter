@@ -20,10 +20,6 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
-		Common.Coord camHalfFreeZone;
-		Common.Coord halsScreenSize;
-		Common.Coord camPos;
-
 		Common.GameObjectState playerState;
 
 		Common.IClient client;
@@ -34,10 +30,6 @@ namespace BattleRoyale {
 
 		public MainWindow() {
 			InitializeComponent();
-
-			camHalfFreeZone = new Common.Coord(50, 20);
-			halsScreenSize = new Common.Coord();
-			camPos = new Common.Coord();
 
 			pressedKeys = new List<Key>();
 			keysTimer = new Timer() {
@@ -79,9 +71,6 @@ namespace BattleRoyale {
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
-			halsScreenSize.x = (uint)Math.Round(RenderSize.Width / 2);
-			halsScreenSize.y = (uint)Math.Round(RenderSize.Height / 2);
-
 			AllocConsole();
 
 			client.Connect("127.0.0.1", 65000);
@@ -115,46 +104,26 @@ namespace BattleRoyale {
 							Height = state.Size.height,
 							Stretch = Stretch.Fill,
 						};
+						Canvas.SetLeft(image, state.Pos.x);
+						Canvas.SetTop(image, state.Pos.y);
 						newState.Add(image);
-						image.Tag = state;
+						image.Tag = state.Id;
 					});
 
-					if (state.Id == client.PlayerId) {
+					if (state.Id == client.PlayerId)
 						playerState = state;
-
-						if (camPos != null) {
-							if (playerState.Pos.x > camPos.x + camHalfFreeZone.x)
-								++camPos.x;
-							if (playerState.Pos.x < camPos.x - camHalfFreeZone.x)
-								++camPos.x;
-							if (playerState.Pos.y > camPos.y + camHalfFreeZone.y)
-								++camPos.y;
-							if (playerState.Pos.y < camPos.y - camHalfFreeZone.y)
-								++camPos.y;
-						}
-						else {
-							playerState = state;
-							camPos = (Common.Coord)playerState.Pos.Clone();
-						}
-					}
 				}
 
 				this.Dispatcher.Invoke(() => {
 					foreach (var image in newState) {
 						foreach (UIElement c in GameCanvas.Children) {
-							if (((c as Image).Tag as Common.GameObjectState).Id == (image.Tag as Common.GameObjectState).Id) {
+							if ((ulong)(c as Image).Tag == (ulong)image.Tag) {
 								GameCanvas.Children.Remove(c);
 								break;
 							}
 						}
 
 						GameCanvas.Children.Add(image);
-					}
-
-					foreach (UIElement image in GameCanvas.Children) {
-						Common.GameObjectState s = ((image as Image).Tag as Common.GameObjectState);
-						Canvas.SetLeft(image, (int)(s.Pos.x) - camPos.x + halsScreenSize.x);
-						Canvas.SetTop(image, (int)(s.Pos.y) - camPos.y + halsScreenSize.y);
 					}
 				});
 
@@ -191,8 +160,8 @@ namespace BattleRoyale {
 			double plposx = playerState.Pos.x + playerState.Size.width / 2,
 				plposy = playerState.Pos.y + playerState.Size.height / 2;
 
-			double xs = (mspos.X + camPos.x - halsScreenSize.x) - plposx,
-				ys = (mspos.Y + camPos.y - halsScreenSize.y) - plposy;
+			double xs = mspos.X - plposx,
+				ys = mspos.Y - plposy;
 
 			//Console.WriteLine($"pl = {plposx} {plposy}");
 			//Console.WriteLine($"ms = {mspos.X} {mspos.Y}");
@@ -210,18 +179,11 @@ namespace BattleRoyale {
 
 			newAngle = (short)Math.Round(newAngleRad * (180 / Math.PI));
 
-			//Console.WriteLine($"angle = {newAngle}");
+			Console.WriteLine($"angle = {newAngle}");
 
 			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.PlayerChangeAngle) {
 				newAngle = newAngle,
 			});
-		}
-
-
-
-		private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
-			halsScreenSize.x = (uint)Math.Round(RenderSize.Width / 2);
-			halsScreenSize.y = (uint)Math.Round(RenderSize.Height / 2);
 		}
 	}
 }
