@@ -179,7 +179,7 @@ namespace BattleRoyale {
 
 			newAngle = (short)Math.Round(newAngleRad * (180 / Math.PI));
 
-			Console.WriteLine($"angle = {newAngle}");
+			//Console.WriteLine($"angle = {newAngle}");
 
 			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.PlayerChangeAngle) {
 				newAngle = newAngle,
