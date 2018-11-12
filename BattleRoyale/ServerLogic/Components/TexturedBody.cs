@@ -48,9 +48,9 @@ namespace ServerLogic.Components {
 			this.Angle = angle;
 		}
 
-		public void AppendCoords(uint x, uint y, short angle) {
-			this.Pos.x = x;
-			this.Pos.y = y;
+		public void AppendCoords(int x, int y, short angle) {
+			this.Pos.x = (uint)(this.Pos.x + x);
+			this.Pos.y = (uint)(this.Pos.y + y);
 			this.Angle = angle;
 		}
 
@@ -59,9 +59,9 @@ namespace ServerLogic.Components {
 			this.Pos.y += pos.y;
 		}
 
-		public void AddToCoords(uint x, uint y) {
-			this.Pos.x += x;
-			this.Pos.y += y;
+		public void AddToCoords(int x, int y) {
+			this.Pos.x = (uint)(this.Pos.x + x);
+			this.Pos.y = (uint)(this.Pos.y + y);
 		}
 	}
 }
