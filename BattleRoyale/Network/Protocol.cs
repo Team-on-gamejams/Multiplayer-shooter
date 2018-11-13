@@ -22,7 +22,6 @@ namespace Network {
 			int receiveLen = stream.Read(data, 0, data.Length);
 			while(receiveLen < expectedLen) 
 				stream.Read(data, receiveLen, data.Length - receiveLen);
-
 			return res;
 		}
 

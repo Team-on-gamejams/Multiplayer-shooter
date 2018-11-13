@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Common;
+using ServerLogic.Components;
 
-namespace ServerLogic.Components {
+namespace ServerLogic.ComponentMessage {
 	class ComponentMessageBase : IComponentMessage {
 		public ComponentMessageType ComponentMessageType { get; set; }
 

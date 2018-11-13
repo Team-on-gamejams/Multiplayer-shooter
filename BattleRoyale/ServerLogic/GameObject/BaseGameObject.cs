@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Common;
 using ServerLogic.Components;
+using ServerLogic.ComponentMessage;
 
 namespace ServerLogic.GameObject {
 	class BaseGameObject : Common.IGameObject, IDisposable {

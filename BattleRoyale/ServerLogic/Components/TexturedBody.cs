@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Common;
+using ServerLogic.ComponentMessage;
 
 namespace ServerLogic.Components {
 	class TexturedBody : BaseComponent {

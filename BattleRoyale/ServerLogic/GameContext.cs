@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Common;
 using ServerLogic.Components;
+using ServerLogic.ComponentMessage;
 using ServerLogic.GameObject;
 
 namespace ServerLogic {

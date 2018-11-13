@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BaseComponent.cs" />
-    <Compile Include="Components\ComponentMessageAngle.cs" />
+    <Compile Include="ComponentMessage\ComponentMessageAngle.cs" />
     <Compile Include="Components\DieableByDie.cs" />
     <Compile Include="Components\DieOnCollide.cs" />
     <Compile Include="Components\DieOnTTL.cs" />
@@ -54,7 +54,7 @@
     <Compile Include="Components\SolidBody.cs" />
     <Compile Include="Components\TexturedBody.cs" />
     <Compile Include="GameObject\FloorMapObject.cs" />
-    <Compile Include="Components\ComponentMessageBase.cs" />
+    <Compile Include="ComponentMessage\ComponentMessageBase.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameContext.cs" />
     <Compile Include="GameObject\BaseGameObject.cs" />

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Common;
 
-namespace ServerLogic.Components {
+using Common;
+using ServerLogic.Components;
+
+namespace ServerLogic.ComponentMessage {
 	class ComponentMessageAngle : ComponentMessageBase{
 		public short Angle { get; set; }
 
