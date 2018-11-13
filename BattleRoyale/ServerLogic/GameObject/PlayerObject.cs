@@ -16,6 +16,10 @@ namespace ServerLogic.GameObject {
 
 			components.Add(new SolidBody(this, initPos, new Size(31, 62), 0, false, TextureId.Player));
 			components.Add(new Moveable(this, 7));
+
+			components.Add(new HasLMBSkill(this, (m) => {
+				GameContext.GetGCState().AddGameObject(new PistolBullet(this));
+			}));
 		}
 	}
 }

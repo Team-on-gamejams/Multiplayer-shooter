@@ -126,6 +126,8 @@ namespace ServerLogic {
 			}
 		}
 
+		public void AddGameObject(BaseGameObject obj) => gameObjects.Add(obj);
+
 		void Display() {
 			List<GameObjectState> states = new List<GameObjectState>(map.Count + players.Count + gameObjects.Count);
 			Components.TexturedBody texturedObj;
@@ -220,7 +222,11 @@ namespace ServerLogic {
 		void ReadPlayersInput() {
 			ComponentMessageBase message;
 			while (server.TryDequeuePlayerAction(out BasePlayerAction action)) {
-				if(action.actionType == PlayerActionType.PlayerChangeAngle) 
+				if(
+					action.actionType == PlayerActionType.PlayerChangeAngle ||
+					action.actionType == PlayerActionType.SkillLMB ||
+					action.actionType == PlayerActionType.SkillRMB
+					) 
 					message = new ComponentMessageAngle((ComponentMessageType)action.actionType, action.newAngle);
 				else
 					message = new ComponentMessageBase((ComponentMessageType)action.actionType);

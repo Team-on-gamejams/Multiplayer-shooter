@@ -81,21 +81,22 @@ namespace BattleRoyale {
 				foreach (var state in states) {
 					string path = @"Resources\textures\";
 
-					switch (state.TextureId) {
-						case Common.TextureId.None:
-							path += "None";
-							break;
-						case Common.TextureId.Player:
-							path += "Player";
-							break;
-						case Common.TextureId.DungeonFloor:
-							path += "DungeonFloor";
-							break;
-						case Common.TextureId.DungeonWall:
-							path += "DungeonWall";
-							break;
-					}
-					path += ".png";
+					//switch (state.TextureId) {
+					//	case Common.TextureId.None:
+					//		path += "None";
+					//		break;
+					//	case Common.TextureId.Player:
+					//		path += "Player";
+					//		break;
+					//	case Common.TextureId.DungeonFloor:
+					//		path += "DungeonFloor";
+					//		break;
+					//	case Common.TextureId.DungeonWall:
+					//		path += "DungeonWall";
+					//		break;
+					//}
+					path += state.TextureId.ToString() + ".png";
+
 
 					this.Dispatcher.Invoke(() => {
 						Image image = new Image {
@@ -106,8 +107,12 @@ namespace BattleRoyale {
 						};
 						Canvas.SetLeft(image, state.Pos.x);
 						Canvas.SetTop(image, state.Pos.y);
+
+						image.RenderTransformOrigin = new Point(0.5, 0.5);
+						image.RenderTransform = new RotateTransform(state.Angle);
+
 						newState.Add(image);
-						image.Tag = state.Id;
+						image.Tag = state;
 					});
 
 					if (state.Id == client.PlayerId)
@@ -115,15 +120,19 @@ namespace BattleRoyale {
 				}
 
 				this.Dispatcher.Invoke(() => {
+					Common.GameObjectState currTag;
 					foreach (var image in newState) {
+						currTag = (image.Tag as Common.GameObjectState);
+
 						foreach (UIElement c in GameCanvas.Children) {
-							if ((ulong)(c as Image).Tag == (ulong)image.Tag) {
+							if (((c as Image).Tag as Common.GameObjectState).Id == currTag.Id) {
 								GameCanvas.Children.Remove(c);
 								break;
 							}
 						}
 
-						GameCanvas.Children.Add(image);
+						if(currTag.TextureId != Common.TextureId.None)
+							GameCanvas.Children.Add(image);
 					}
 				});
 
@@ -184,6 +193,10 @@ namespace BattleRoyale {
 			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.PlayerChangeAngle) {
 				newAngle = newAngle,
 			});
+		}
+
+		private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+			client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.SkillLMB));
 		}
 	}
 }

@@ -44,8 +44,13 @@
   <ItemGroup>
     <Compile Include="Components\BaseComponent.cs" />
     <Compile Include="Components\ComponentMessageAngle.cs" />
+    <Compile Include="Components\DieableByDie.cs" />
+    <Compile Include="Components\DieOnCollide.cs" />
+    <Compile Include="Components\DieOnTTL.cs" />
+    <Compile Include="Components\HasLMBSkill.cs" />
     <Compile Include="Components\MoveableWithAngle.cs" />
     <Compile Include="Components\Moveable.cs" />
+    <Compile Include="Components\Projectile.cs" />
     <Compile Include="Components\SolidBody.cs" />
     <Compile Include="Components\TexturedBody.cs" />
     <Compile Include="GameObject\FloorMapObject.cs" />
@@ -54,6 +59,7 @@
     <Compile Include="GameContext.cs" />
     <Compile Include="GameObject\BaseGameObject.cs" />
     <Compile Include="GameObject\BaseMapObject.cs" />
+    <Compile Include="GameObject\PistolBullet.cs" />
     <Compile Include="GameObject\PlayerObject.cs" />
     <Compile Include="GameObject\WallMapObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,9 +69,6 @@
       <Project>{3415a607-e60e-4db1-bed0-ee9b84ebc295}</Project>
       <Name>Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

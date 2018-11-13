@@ -63,5 +63,9 @@ namespace ServerLogic.Components {
 			this.Pos.x = (uint)(this.Pos.x + x);
 			this.Pos.y = (uint)(this.Pos.y + y);
 		}
+
+		public void KillObject() {
+			TextureId = TextureId.None;
+		}
 	}
 }

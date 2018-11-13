@@ -15,6 +15,7 @@
         KeyUp="Window_KeyUp"
         
         MouseMove="Window_MouseMove"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         >
     <Grid>
         <Canvas x:Name="GameCanvas" Background="White">

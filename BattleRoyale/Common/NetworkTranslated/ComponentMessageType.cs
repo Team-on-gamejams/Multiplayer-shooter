@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Common {
 	public enum ComponentMessageType : byte{
 		None,
+
 		TickElapsed,
 
 		MoveForward,
@@ -17,5 +18,7 @@ namespace Common {
 		SkillRMB,
 
 		AngleChanged,
+
+		Die,
 	}
 }

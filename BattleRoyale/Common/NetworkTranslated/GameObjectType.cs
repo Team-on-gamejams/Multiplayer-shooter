@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 namespace Common {
 	public enum GameObjectType : byte {
 		None,
+
 		Player,
+
 		Floor,
-		Wall
+		Wall,
+
+		Projectile,
 	}
 }
