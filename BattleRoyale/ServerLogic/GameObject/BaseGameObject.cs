@@ -30,9 +30,7 @@ namespace ServerLogic.GameObject {
 			if (IsDisposed())
 				return;
 
-			SendMessage(new ComponentMessageBase() {
-				ComponentMessageType = ComponentMessageType.TickElapsed
-			});
+			SendMessage(new ComponentMessageBase(ComponentMessageType.TickElapsed));
 
 			while (messageQueue.Count > 0) {
 				if (messageQueue.TryDequeue(out IComponentMessage msg))

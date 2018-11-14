@@ -120,7 +120,7 @@ namespace Server {
 			while (clientInfo.isRunning) {
 				lock (clientInfo.locker) {
 					if (!clientInfo.stream.DataAvailable) {
-						System.Threading.Thread.Sleep(2);
+						System.Threading.Thread.Sleep(1);
 						continue;
 					}
 

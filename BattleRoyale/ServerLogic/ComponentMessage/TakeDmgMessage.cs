@@ -9,11 +9,7 @@ namespace ServerLogic.ComponentMessage {
 		public bool CanKill { get; private set; }
 		public short Dmg { get; private set; }
 
-		public TakeDmgMessage() : this(true, 0){
-
-		}
-
-		public TakeDmgMessage(bool canKill, short dmg) {
+		public TakeDmgMessage(bool canKill, short dmg) : base(Common.ComponentMessageType.TakeDmg) {
 			CanKill = canKill;
 			Dmg = dmg;
 		}

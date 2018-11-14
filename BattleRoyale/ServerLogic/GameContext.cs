@@ -122,7 +122,7 @@ namespace ServerLogic {
 					nextTickfps += skipTickfps;
 				}
 				else
-					System.Threading.Thread.Sleep(3);
+					System.Threading.Thread.Sleep(1);
 
 			}
 		}
@@ -176,7 +176,6 @@ namespace ServerLogic {
 			ReadPlayersInput();
 			ProcessMessages();
 
-
 			//RemoveDisposedObjects();
 		}
 
@@ -227,7 +226,7 @@ namespace ServerLogic {
 					action.actionType == PlayerActionType.PlayerChangeAngle ||
 					action.actionType == PlayerActionType.SkillLMB ||
 					action.actionType == PlayerActionType.SkillRMB
-					) 
+				) 
 					message = new ComponentMessageAngle((ComponentMessageType)action.actionType, action.newAngle);
 				else
 					message = new ComponentMessageBase((ComponentMessageType)action.actionType);

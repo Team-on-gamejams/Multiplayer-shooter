@@ -21,6 +21,8 @@ namespace Common {
 
 		AngleChanged,
 
+		Collide,
+
 		Die,
 	}
 }

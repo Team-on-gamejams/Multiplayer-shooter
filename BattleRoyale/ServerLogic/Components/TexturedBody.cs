@@ -11,12 +11,14 @@ namespace ServerLogic.Components {
 	class TexturedBody : BaseComponent {
 		public TextureId TextureId { get; protected set; }
 		public Coord Pos { get; protected set; }
+		protected Coord PrevPos { get; set; }
 		public Size Size { get; protected set; }
 		public short Angle { get; protected set; }
 
 		public TexturedBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, TextureId textureId)
 			: base(owner) {
 			this.Pos = pos;
+			PrevPos = new Coord();
 			this.Size = size;
 			this.Angle = angle;
 			this.TextureId = textureId;
@@ -34,33 +36,39 @@ namespace ServerLogic.Components {
 		}
 
 		public void AppendCoords(Coord pos) {
+			PrevPos.Set(Pos);
 			this.Pos.x = pos.x;
 			this.Pos.y = pos.y;
 		}
 
 		public void AppendCoords(uint x, uint y) {
+			PrevPos.Set(Pos);
 			this.Pos.x = x;
 			this.Pos.y = y;
 		}
 
 		public void AppendCoords(Coord pos, short angle) {
+			PrevPos.Set(Pos);
 			this.Pos.x = pos.x;
 			this.Pos.y = pos.y;
 			this.Angle = angle;
 		}
 
 		public void AppendCoords(int x, int y, short angle) {
+			PrevPos.Set(Pos);
 			this.Pos.x = (uint)(this.Pos.x + x);
 			this.Pos.y = (uint)(this.Pos.y + y);
 			this.Angle = angle;
 		}
 
 		public void AddToCoords(Coord pos) {
+			PrevPos.Set(Pos);
 			this.Pos.x += pos.x;
 			this.Pos.y += pos.y;
 		}
 
 		public void AddToCoords(int x, int y) {
+			PrevPos.Set(Pos);
 			this.Pos.x = (uint)(this.Pos.x + x);
 			this.Pos.y = (uint)(this.Pos.y + y);
 		}

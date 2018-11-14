@@ -8,14 +8,13 @@ using ServerLogic.Components;
 
 namespace ServerLogic.ComponentMessage {
 	class ComponentMessageAngle : ComponentMessageBase{
-		public short Angle { get; set; }
+		public short Angle { get; private set; }
 
-		public ComponentMessageAngle() : this(ComponentMessageType.None, 0) {
-
+		public ComponentMessageAngle(short angle) : base(ComponentMessageType.AngleChanged) {
+			Angle = angle;
 		}
 
-		public ComponentMessageAngle(ComponentMessageType type, short angle) {
-			ComponentMessageType = type;
+		public ComponentMessageAngle(ComponentMessageType type, short angle) : base(type) {
 			Angle = angle;
 		}
 	}

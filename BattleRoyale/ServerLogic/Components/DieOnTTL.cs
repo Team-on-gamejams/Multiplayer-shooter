@@ -18,12 +18,15 @@ namespace ServerLogic.Components {
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
-			if (msg.ComponentMessageType == ComponentMessageType.TickElapsed) {
-				++lifetime;
+			if (msg.ComponentMessageType == ComponentMessageType.TickElapsed)
+				ProcessTickElapsedMessage();
+		}
 
-				if (lifetime == ttl) {
-					Owner.SendMessage(new ComponentMessageBase() { ComponentMessageType = ComponentMessageType.Die });
-				}
+		void ProcessTickElapsedMessage() {
+			++lifetime;
+
+			if (lifetime == ttl) {
+				Owner.SendMessage(new ComponentMessageBase(ComponentMessageType.Die));
 			}
 		}
 	}

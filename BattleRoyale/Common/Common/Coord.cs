@@ -15,6 +15,11 @@ namespace Common {
 			this.y = y;
 		}
 
+		public void Set(Coord c) {
+			x = c.x;
+			y = c.y;
+		}
+
 		public object Clone() {
 			return MemberwiseClone();
 		}

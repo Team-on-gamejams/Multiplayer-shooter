@@ -135,7 +135,7 @@ namespace BattleRoyale {
 			while (isRunning) {
 				lock (streamLocker) {
 					if (!stream.DataAvailable) {
-						System.Threading.Thread.Sleep(2);
+						System.Threading.Thread.Sleep(1);
 						continue;
 					}
 

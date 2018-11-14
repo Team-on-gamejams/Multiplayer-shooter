@@ -9,11 +9,7 @@ using ServerLogic.Components;
 
 namespace ServerLogic.ComponentMessage {
 	class ComponentMessageBase : IComponentMessage {
-		public ComponentMessageType ComponentMessageType { get; set; }
-
-		public ComponentMessageBase() {
-			ComponentMessageType = ComponentMessageType.None;
-		}
+		public ComponentMessageType ComponentMessageType { get; private set; }
 
 		public ComponentMessageBase(ComponentMessageType type) {
 			ComponentMessageType = type;
