@@ -46,7 +46,9 @@
     <Compile Include="ComponentMessage\TakeDmgMessage.cs" />
     <Compile Include="Components\BaseComponent.cs" />
     <Compile Include="ComponentMessage\ComponentMessageAngle.cs" />
+    <Compile Include="Components\DealDMGOnCollide.cs" />
     <Compile Include="Components\DieableByDieMessage.cs" />
+    <Compile Include="Components\DieOnCollide.cs" />
     <Compile Include="Components\DieOnTTL.cs" />
     <Compile Include="Components\HasLMBSkill.cs" />
     <Compile Include="Components\MoveableWithAngle.cs" />

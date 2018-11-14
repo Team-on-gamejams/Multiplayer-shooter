@@ -172,11 +172,16 @@ namespace ServerLogic {
 			server.SendChangedWorldState(states.ToArray());
 		}
 
+		const int disposeTime = 1000;
+		int nextDisposeTime = Environment.TickCount + disposeTime;
 		void Update() {
 			ReadPlayersInput();
 			ProcessMessages();
 
-			//RemoveDisposedObjects();
+			if (Environment.TickCount > nextDisposeTime) {
+				RemoveDisposedObjects();
+				nextDisposeTime += disposeTime;
+			}
 		}
 
 		public GameObjectState[] GetAllTexturedStates() {

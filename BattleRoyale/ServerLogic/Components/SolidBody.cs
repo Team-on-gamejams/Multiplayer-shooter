@@ -25,7 +25,10 @@ namespace ServerLogic.Components {
 		}
 
 		public void ProcessCollideMsg(CollideMessage collideMessage) {
+			if (IsSemisolid && (collideMessage.CollideWith.GetComponent<SolidBody>()?.IsSemisolid ?? false))
+				return;
 
+			Pos.Set(PrevPos);
 		}
 	}
 }

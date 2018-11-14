@@ -24,7 +24,12 @@ namespace ServerLogic.GameObject {
 
 			components.Add(new Projectile(this, 5));
 
+
+			components.Add(new DealDMGOnCollide(this));
+
+			components.Add(new DieOnCollide(this));
 			components.Add(new DieOnTTL(this, 100));
+
 			components.Add(new DieableByDieMessage(this));
 		}
 	}
