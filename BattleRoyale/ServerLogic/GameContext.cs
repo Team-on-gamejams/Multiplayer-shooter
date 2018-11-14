@@ -253,7 +253,33 @@ namespace ServerLogic {
 		}
 
 		void ProcessCollide() {
+			foreach (var obj in gameObjects) {
+				SolidBody solidObjects = obj.GetComponent<SolidBody>();
+				if (solidObjects == null)
+					continue;
 
+				foreach (var pl in players)
+					if (solidObjects.IsCollide(pl.GetComponent<TexturedBody>())) {
+						obj.SendMessage(new CollideMessage(pl));
+						pl.SendMessage(new CollideMessage(obj));
+					}
+
+				foreach (var cell in map)
+					if (solidObjects.IsCollide(cell.GetComponent<TexturedBody>())) {
+						obj.SendMessage(new CollideMessage(cell));
+						cell.SendMessage(new CollideMessage(obj));
+					}
+			}
+
+			foreach (var pl in players) {
+				SolidBody solidObjects = pl.GetComponent<SolidBody>();
+
+				foreach (var cell in map)
+					if (solidObjects.IsCollide(cell.GetComponent<TexturedBody>())) {
+						pl.SendMessage(new CollideMessage(cell));
+						cell.SendMessage(new CollideMessage(pl));
+					}
+			}
 		}
 
 		void RemoveDisposedObjects() {

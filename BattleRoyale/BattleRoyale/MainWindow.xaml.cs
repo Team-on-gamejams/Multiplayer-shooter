@@ -61,10 +61,6 @@ namespace BattleRoyale {
 
 			client = new TCPClient();
 
-			Console.CancelKeyPress += (a, b) => {
-				client.Disconnect();
-			};
-
 			this.Closing += (a, b) => {
 				client.Disconnect();
 			};
@@ -81,20 +77,6 @@ namespace BattleRoyale {
 				foreach (var state in states) {
 					string path = @"Resources\textures\";
 
-					//switch (state.TextureId) {
-					//	case Common.TextureId.None:
-					//		path += "None";
-					//		break;
-					//	case Common.TextureId.Player:
-					//		path += "Player";
-					//		break;
-					//	case Common.TextureId.DungeonFloor:
-					//		path += "DungeonFloor";
-					//		break;
-					//	case Common.TextureId.DungeonWall:
-					//		path += "DungeonWall";
-					//		break;
-					//}
 					path += state.TextureId.ToString() + ".png";
 
 

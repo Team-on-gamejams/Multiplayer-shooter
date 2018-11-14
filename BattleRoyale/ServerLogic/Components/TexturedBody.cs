@@ -18,7 +18,7 @@ namespace ServerLogic.Components {
 		public TexturedBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, TextureId textureId)
 			: base(owner) {
 			this.Pos = pos;
-			PrevPos = new Coord();
+			PrevPos = new Coord(pos.x, pos.y);
 			this.Size = size;
 			this.Angle = angle;
 			this.TextureId = textureId;
@@ -71,6 +71,12 @@ namespace ServerLogic.Components {
 			PrevPos.Set(Pos);
 			this.Pos.x = (uint)(this.Pos.x + x);
 			this.Pos.y = (uint)(this.Pos.y + y);
+		}
+
+		public bool IsCollide(TexturedBody body) {
+			return	body.Pos.x < Pos.x && Pos.x < Pos.x + Size.width &&
+					body.Pos.y < Pos.y && Pos.y < Pos.y + Size.height
+				;
 		}
 
 		public void KillObject() {
