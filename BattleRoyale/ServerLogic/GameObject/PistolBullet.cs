@@ -18,14 +18,14 @@ namespace ServerLogic.GameObject {
 				startBulletPos,
 				bulletSize,
 				parent.GetComponent<SolidBody>().Angle,
-				false,
+				true,
 				TextureId.PistolBullet
 			));
 
 			components.Add(new Projectile(this, 5));
 
 			components.Add(new DieOnTTL(this, 100));
-			components.Add(new DieableByDie(this));
+			components.Add(new DieableByDieMessage(this));
 		}
 	}
 }

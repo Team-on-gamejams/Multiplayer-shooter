@@ -42,9 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentMessage\TakeDmgMessage.cs" />
     <Compile Include="Components\BaseComponent.cs" />
     <Compile Include="ComponentMessage\ComponentMessageAngle.cs" />
-    <Compile Include="Components\DieableByDie.cs" />
+    <Compile Include="Components\DieableByDieMessage.cs" />
     <Compile Include="Components\DieOnCollide.cs" />
     <Compile Include="Components\DieOnTTL.cs" />
     <Compile Include="Components\HasLMBSkill.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Components\Moveable.cs" />
     <Compile Include="Components\Projectile.cs" />
     <Compile Include="Components\SolidBody.cs" />
+    <Compile Include="Components\StatHp.cs" />
     <Compile Include="Components\TexturedBody.cs" />
     <Compile Include="GameObject\FloorMapObject.cs" />
     <Compile Include="ComponentMessage\ComponentMessageBase.cs" />

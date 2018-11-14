@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Common;
 
 namespace ServerLogic.Components {
-	class DieableByDie : BaseComponent {
-		public DieableByDie(IGameObject owner) : base(owner) {
+	class DieableByDieMessage : BaseComponent {
+		public DieableByDieMessage(IGameObject owner) : base(owner) {
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {

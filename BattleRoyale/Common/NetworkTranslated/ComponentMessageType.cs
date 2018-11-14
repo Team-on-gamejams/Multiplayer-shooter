@@ -17,6 +17,8 @@ namespace Common {
 		SkillLMB,
 		SkillRMB,
 
+		TakeDmg,
+
 		AngleChanged,
 
 		Die,

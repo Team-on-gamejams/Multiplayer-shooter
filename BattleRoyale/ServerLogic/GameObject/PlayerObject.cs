@@ -20,6 +20,9 @@ namespace ServerLogic.GameObject {
 			components.Add(new HasLMBSkill(this, (m) => {
 				GameContext.GetGCState().AddGameObject(new PistolBullet(this));
 			}));
+
+			components.Add(new StatHp(this, 100, 100));
+			components.Add(new DieableByDieMessage(this));
 		}
 	}
 }
