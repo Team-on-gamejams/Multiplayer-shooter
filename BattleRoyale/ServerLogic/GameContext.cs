@@ -248,6 +248,12 @@ namespace ServerLogic {
 				i.Process();
 			//foreach (var i in map) 
 			//	i.Process();
+
+			ProcessCollide();
+		}
+
+		void ProcessCollide() {
+
 		}
 
 		void RemoveDisposedObjects() {
