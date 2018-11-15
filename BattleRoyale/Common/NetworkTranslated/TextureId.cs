@@ -11,7 +11,11 @@ namespace Common {
 		Player,
 
 		DungeonFloor,
+		WoodFloor,
+		Grass,
+
 		DungeonWall,
+		Water,
 
 		PistolBullet
 	}

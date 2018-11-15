@@ -74,8 +74,8 @@ namespace ServerLogic.Components {
 		}
 
 		public bool IsCollide(TexturedBody body) {
-			return	body.Pos.x < Pos.x && Pos.x < Pos.x + Size.width &&
-					body.Pos.y < Pos.y && Pos.y < Pos.y + Size.height
+			return	body.Pos.x < Pos.x && Pos.x < body.Pos.x + body.Size.width &&
+					body.Pos.y < Pos.y && Pos.y < body.Pos.y + body.Size.height
 				;
 		}
 

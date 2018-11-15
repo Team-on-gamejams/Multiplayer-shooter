@@ -20,6 +20,8 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+		public static string Ip = "127.0.0.1";
+
 		Common.GameObjectState playerState;
 
 		Common.IClient client;
@@ -69,7 +71,7 @@ namespace BattleRoyale {
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			AllocConsole();
 
-			client.Connect("127.0.0.1", 65000);
+			client.Connect(Ip, 65000);
 
 			client.OnWorldUpdate += (states) => {
 				List<Image> newState = new List<Image>();
@@ -78,7 +80,6 @@ namespace BattleRoyale {
 					string path = @"Resources\textures\";
 
 					path += state.TextureId.ToString() + ".png";
-
 
 					this.Dispatcher.Invoke(() => {
 						Image image = new Image {

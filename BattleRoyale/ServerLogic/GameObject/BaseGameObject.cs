@@ -42,7 +42,6 @@ namespace ServerLogic.GameObject {
 		public GameObjectType GOType { get; protected set; }
 		public IGameObject Parent { get; protected set; }
 		public bool IsUpdated { get; set; }
-
 		public bool IsDisposed() => isDisposed;
 		public void Dispose() => isDisposed = true;
 

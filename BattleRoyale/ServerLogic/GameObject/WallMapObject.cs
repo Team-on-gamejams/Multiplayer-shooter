@@ -11,7 +11,7 @@ namespace ServerLogic.GameObject {
 	class WallMapObject : BaseMapObject{
 		public WallMapObject (Coord initPos, Size size, TextureId id)
 			: base(GameObjectType.Wall) {
-				base.components.Add(new SolidBody(this, initPos, size, 0, false, id));
+				base.components.Add(new SolidBody(this, initPos, size, 0, false, id, null));
 		}
 	}
 }

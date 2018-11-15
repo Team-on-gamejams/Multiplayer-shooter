@@ -14,7 +14,7 @@ namespace ServerLogic.GameObject {
 		public PlayerObject(Coord initPos, PlayerChampionType PlayerChampionType) : base(GameObjectType.Player, null){
 			this.PlayerChampionType = PlayerChampionType;
 
-			components.Add(new SolidBody(this, initPos, new Size(31, 62), 0, false, TextureId.Player));
+			components.Add(new SolidBody(this, initPos, new Size(31, 62), 0, false, TextureId.Player, null));
 			components.Add(new Moveable(this, 7));
 
 			components.Add(new HasLMBSkill(this, (m) => {

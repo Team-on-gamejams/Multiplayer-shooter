@@ -9,12 +9,14 @@ using ServerLogic.ComponentMessage;
 
 namespace ServerLogic.Components {
 	class SolidBody : TexturedBody{
+		public IGameObject IgnoreCollide { get; private set; }
 		public bool IsSemisolid { get; private set; }
 
-		public SolidBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, bool isSemisolid, TextureId textureId)
+		public SolidBody(GameObject.BaseGameObject owner, Coord pos, Size size, short angle, bool isSemisolid, TextureId textureId, IGameObject _IgnoreCollide)
 			: base(owner, pos, size, angle, textureId) {
 			IsSemisolid = isSemisolid;
 			Owner.IsUpdated = true;
+			IgnoreCollide = _IgnoreCollide;
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
@@ -25,7 +27,10 @@ namespace ServerLogic.Components {
 		}
 
 		public void ProcessCollideMsg(CollideMessage collideMessage) {
-			if (IsSemisolid && (collideMessage.CollideWith.GetComponent<SolidBody>()?.IsSemisolid ?? false))
+			if (
+				(IsSemisolid && (collideMessage.CollideWith.GetComponent<SolidBody>()?.IsSemisolid ?? false)) ||
+				(collideMessage.CollideWith == IgnoreCollide)
+			)
 				return;
 
 			Pos.Set(PrevPos);

@@ -9,7 +9,7 @@ using ServerLogic.Components;
 namespace ServerLogic.GameObject {
 	class PistolBullet : BaseGameObject {
 		public PistolBullet(BaseGameObject parent) : base(GameObjectType.Projectile, parent) {
-			Size bulletSize = new Size(5, 10);
+			Size bulletSize = new Size(30, 30);
 			Coord startBulletPos = (Coord)parent.GetComponent<SolidBody>().Pos.Clone();
 			startBulletPos.x += parent.GetComponent<SolidBody>().Size.width / 2 - bulletSize.width / 2;
 			startBulletPos.y += parent.GetComponent<SolidBody>().Size.height / 2 - bulletSize.height / 2;
@@ -19,15 +19,16 @@ namespace ServerLogic.GameObject {
 				bulletSize,
 				parent.GetComponent<SolidBody>().Angle,
 				true,
-				TextureId.PistolBullet
+				TextureId.PistolBullet,
+				Parent
 			));
 
 			components.Add(new Projectile(this, 5));
 
 
-			components.Add(new DealDMGOnCollide(this));
+			components.Add(new DealDMGOnCollide(this, 110, true, Parent));
 
-			components.Add(new DieOnCollide(this));
+			components.Add(new DieOnCollide(this, Parent));
 			components.Add(new DieOnTTL(this, 100));
 
 			components.Add(new DieableByDieMessage(this));

@@ -13,7 +13,15 @@ namespace Server {
 			IServer server = new TCPServer();
 			Game game = new Game();
 
-			server.StartServer("127.0.0.1", 65000);
+			string ip;
+
+			Console.Write("Ip: ");
+			ip = Console.ReadLine();
+			if (ip.Length <= 2)
+				ip = "127.0.0.1";
+			Console.WriteLine(ip);
+
+			server.StartServer(ip, 65000);
 			game.StartGame(server);
 
 			while (Console.ReadKey().KeyChar != 'q');

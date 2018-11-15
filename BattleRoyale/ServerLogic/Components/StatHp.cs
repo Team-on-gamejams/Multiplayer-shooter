@@ -31,6 +31,9 @@ namespace ServerLogic.Components {
 
 			if (currHp == 0 && !message.CanKill)
 				currHp = 1;
+
+			if (currHp == 0)
+				Owner.SendMessage(new ComponentMessageBase(ComponentMessageType.Die));
 		}
 
 		public void ProcessDieMessage() {

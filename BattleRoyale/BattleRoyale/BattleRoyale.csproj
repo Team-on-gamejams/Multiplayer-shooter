@@ -56,8 +56,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConnectWindow.xaml.cs">
+      <DependentUpon>ConnectWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="TCPClient.cs" />
+    <Page Include="ConnectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,6 +122,11 @@
     <Resource Include="Resources\textures\DungeonWall.png" />
     <Resource Include="Resources\textures\None.png" />
     <Resource Include="Resources\textures\Player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\textures\Grass.png" />
+    <Resource Include="Resources\textures\Water.png" />
+    <Resource Include="Resources\textures\WoodFloor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -55,17 +55,14 @@ namespace ServerLogic {
 			players.Clear();
 			gameObjects.Clear();
 
-			map.Add(new FloorMapObject(new Coord(0, 0), new Size(500, 500), TextureId.DungeonFloor));
-
-			for (byte i = 0; i < 10; ++i) {
-				for (byte j = 0; j < 10; ++j) {
-					if (i == 0 || j == 0)
-						map.Add(new WallMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), new Size(51, 51), TextureId.DungeonWall));
+			for (byte i = 0; i < 50; ++i) {
+				for (byte j = 0; j < 50; ++j) {
+					if (i == 0 || j == 0 || i == 49 || j == 49)
+						map.Add(new WallMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), new Size(51, 51), TextureId.Water));
+					else
+						map.Add(new FloorMapObject(new Coord((uint)(i * 50), (uint)(j * 50)), new Size(51, 51), TextureId.Grass));
 				}
 			}
-
-			map.Add(new WallMapObject(new Coord(50, 450), new Size(450, 50), TextureId.DungeonWall));
-			map.Add(new WallMapObject(new Coord(450, 50), new Size(50, 450), TextureId.DungeonWall));
 
 		}
 
@@ -172,7 +169,7 @@ namespace ServerLogic {
 			server.SendChangedWorldState(states.ToArray());
 		}
 
-		const int disposeTime = 1000;
+		const int disposeTime = 60000;
 		int nextDisposeTime = Environment.TickCount + disposeTime;
 		void Update() {
 			ReadPlayersInput();
@@ -227,11 +224,11 @@ namespace ServerLogic {
 		void ReadPlayersInput() {
 			ComponentMessageBase message;
 			while (server.TryDequeuePlayerAction(out BasePlayerAction action)) {
-				if(
+				if (
 					action.actionType == PlayerActionType.PlayerChangeAngle ||
 					action.actionType == PlayerActionType.SkillLMB ||
 					action.actionType == PlayerActionType.SkillRMB
-				) 
+				)
 					message = new ComponentMessageAngle((ComponentMessageType)action.actionType, action.newAngle);
 				else
 					message = new ComponentMessageBase((ComponentMessageType)action.actionType);
@@ -253,32 +250,49 @@ namespace ServerLogic {
 		}
 
 		void ProcessCollide() {
+			SolidBody solidObject;
+			SolidBody cellSolid, playerSolid;
+
 			foreach (var obj in gameObjects) {
-				SolidBody solidObjects = obj.GetComponent<SolidBody>();
-				if (solidObjects == null)
+				solidObject = obj.GetComponent<SolidBody>();
+				if (solidObject == null && obj.IsDisposed())
 					continue;
 
-				foreach (var pl in players)
-					if (solidObjects.IsCollide(pl.GetComponent<TexturedBody>())) {
-						obj.SendMessage(new CollideMessage(pl));
-						pl.SendMessage(new CollideMessage(obj));
-					}
+				foreach (var pl in players) {
+					if (pl.IsDisposed())
+						continue;
 
-				foreach (var cell in map)
-					if (solidObjects.IsCollide(cell.GetComponent<TexturedBody>())) {
-						obj.SendMessage(new CollideMessage(cell));
-						cell.SendMessage(new CollideMessage(obj));
+					playerSolid = pl.GetComponent<SolidBody>();
+					if (playerSolid != null && solidObject.IsCollide(playerSolid)) {
+						obj.SendMessage(new CollideMessage(pl));
 					}
+				}
+
+				foreach (var cell in map) {
+					if (cell.IsDisposed())
+						continue;
+
+					cellSolid = cell.GetComponent<SolidBody>();
+					if (cellSolid != null && solidObject.IsCollide(cellSolid)) {
+						obj.SendMessage(new CollideMessage(cell));
+					}
+				}
 			}
 
 			foreach (var pl in players) {
-				SolidBody solidObjects = pl.GetComponent<SolidBody>();
+				playerSolid = pl.GetComponent<SolidBody>();
+				if (playerSolid == null && pl.IsDisposed())
+					continue;
 
-				foreach (var cell in map)
-					if (solidObjects.IsCollide(cell.GetComponent<TexturedBody>())) {
+				foreach (var cell in map) {
+					if (cell.IsDisposed())
+						continue;
+
+					cellSolid = cell.GetComponent<SolidBody>();
+					if (cellSolid != null && playerSolid.IsCollide(cellSolid)) {
 						pl.SendMessage(new CollideMessage(cell));
-						cell.SendMessage(new CollideMessage(pl));
 					}
+				}
 			}
 		}
 

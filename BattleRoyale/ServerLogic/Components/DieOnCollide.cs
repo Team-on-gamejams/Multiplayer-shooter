@@ -9,8 +9,10 @@ using ServerLogic.ComponentMessage;
 
 namespace ServerLogic.Components {
 	class DieOnCollide : BaseComponent {
-		public DieOnCollide(IGameObject owner) : base(owner) {
+		public IGameObject IgnoreCollide { get; private set; }
 
+		public DieOnCollide(IGameObject owner, IGameObject ignoreCollide) : base(owner) {
+			IgnoreCollide = ignoreCollide;
 		}
 
 		public override void ProcessMessage(IComponentMessage msg) {
@@ -19,7 +21,8 @@ namespace ServerLogic.Components {
 		}
 
 		public void ProcessCollideMsg(CollideMessage collideMessage) {
-
+			if(collideMessage.CollideWith != IgnoreCollide)
+				Owner.SendMessage(new ComponentMessageBase(ComponentMessageType.Die));
 		}
 	}
 }
