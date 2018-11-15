@@ -20,6 +20,7 @@ namespace BattleRoyale {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window {
+		//192.168.137.1
 		public static string Ip = "127.0.0.1";
 
 		Common.GameObjectState playerState;
@@ -33,45 +34,15 @@ namespace BattleRoyale {
 		public MainWindow() {
 			InitializeComponent();
 
-			pressedKeys = new List<Key>();
-			keysTimer = new Timer() {
-				AutoReset = true,
-				Enabled = true,
-				Interval = 200,
-			};
-
-			keysTimer.Elapsed += (a, b) => {
-				lock (keysLocker) {
-					foreach (var key in pressedKeys) {
-						switch (key) {
-							case Key.A:
-								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveLeft));
-								break;
-							case Key.D:
-								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveRight));
-								break;
-							case Key.S:
-								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveBackward));
-								break;
-							case Key.W:
-								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveForward));
-								break;
-						}
-					}
-				}
-			};
-
 			client = new TCPClient();
+			pressedKeys = new List<Key>();
 
-			this.Closing += (a, b) => {
-				client.Disconnect();
-			};
+			Closing += Window_Closing;
+			Closed += Window_Closed;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
 			AllocConsole();
-
-			client.Connect(Ip, 65000);
 
 			client.OnWorldUpdate += (states) => {
 				List<Image> newState = new List<Image>();
@@ -114,16 +85,50 @@ namespace BattleRoyale {
 							}
 						}
 
-						if(currTag.TextureId != Common.TextureId.None)
+						if (currTag.TextureId != Common.TextureId.None)
 							GameCanvas.Children.Add(image);
 					}
 				});
 
 			};
+
+			client.Connect(Ip, 65000);
+
+			KeyDown += Window_KeyDown;
+			KeyUp += Window_KeyUp;
+			MouseMove += Window_MouseMove;
+			MouseLeftButtonDown +=Window_MouseLeftButtonDown;
+
+			keysTimer = new Timer() {
+				AutoReset = true,
+				Enabled = true,
+				Interval = 200,
+			};
+
+			keysTimer.Elapsed += (a, b) => {
+				lock (keysLocker) {
+					foreach (var key in pressedKeys) {
+						switch (key) {
+							case Key.A:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveLeft));
+								break;
+							case Key.D:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveRight));
+								break;
+							case Key.S:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveBackward));
+								break;
+							case Key.W:
+								client.SentPlayerAction(new Common.BasePlayerAction(Common.PlayerActionType.MoveForward));
+								break;
+						}
+					}
+				}
+			};
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-
+			client.Disconnect();
 		}
 
 		private void Window_Closed(object sender, EventArgs e) {

@@ -24,7 +24,7 @@ namespace BattleRoyale {
 		private void Button_Click(object sender, RoutedEventArgs e) {
 			MainWindow.Ip = IpTextBox.Text;
 			new MainWindow().Show();
-			//this.Close();
+			this.Close();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e) {
