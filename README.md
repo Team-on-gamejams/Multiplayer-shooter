@@ -1,5 +1,5 @@
 # Battle-Royale
-2D top down multiplayer shooter
+2D top down multiplayer shooter. STEP system programming course work
 
 ## Controls:
  * WASD - move
